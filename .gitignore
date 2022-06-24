@@ -1,0 +1,24 @@
+# Compiled class file
+*.class
+*.jar
+
+# Maven
+target/
+
+# temporary data
+data/temporary/
+data/Options.md
+updateTempData.sh
+null/
+
+#eclispe
+.classpath
+.project
+.settings/
+
+#temp folder/
+in/
+out/
+jlink/
+ignore/
+.~lock.*
