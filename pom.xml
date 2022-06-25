@@ -10,7 +10,7 @@
   <artifactId>Formiko</artifactId>
   <packaging>jar</packaging>
   <version>0.1</version>
-  <name>FormikoLauncher</name>
+  <name>Usual</name>
   <url>https://formiko.fr</url>
 
   <dependencies>
