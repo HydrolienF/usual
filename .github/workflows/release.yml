@@ -21,15 +21,17 @@ jobs:
       with:
         java-version: 18
 
+    - name: download Version-Tool
+      run: |
+        wget https://github.com/HydrolienF/Version-Tool/archive/refs/tags/0.5.7.zip
+        unzip Version-Tool-0.5.7.zip
+
     - name: Version-Tool
       uses: HydrolienF/Version-Tool@0.5.7
       id: version
 
     - name: update version.md
-      run: |
-        wget https://github.com/HydrolienF/Version-Tool/archive/refs/tags/0.5.7.zip
-        unzip Version-Tool-0.5.7.zip
-        echo ${{ steps.version.outputs.version }} > version.md
+      run: echo ${{ steps.version.outputs.version }} > version.md
 
     - name: to .jar
       run: |
