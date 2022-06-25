@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.formiko</groupId>
+  <artifactId>Formiko</artifactId>
+  <packaging>jar</packaging>
+  <version>0.1</version>
+  <name>FormikoLauncher</name>
+  <url>https://formiko.fr</url>
+
+  <dependencies>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>maven</executable>
+          <mainClass>fr.formiko.formikolauncher.Main</mainClass>
+          <arguments>
+            <args>${args}</args>
+          </arguments>
+        </configuration>
+      </plugin> -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <release>16</release>
+          <compilerArgument>-Xlint:all</compilerArgument>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <configuration>
+          <runOrder>alphabetical</runOrder>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.7</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>prepare-agent</goal>
+                </goals>
+            </execution>
+            <!-- attached to Maven test phase -->
+            <execution>
+                <id>report</id>
+                <phase>test</phase>
+                <goals>
+                    <goal>report</goal>
+                </goals>
+            </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+            <addClasspath>true</addClasspath>
+            <!-- <mainClass>fr.formiko.formikolauncher.Main</mainClass> -->
+            <!-- <classpathPrefix>dependency-jars/</classpathPrefix> -->
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <index>true</index>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <!-- <mainClass>fr.formiko.formikolauncher.Main</mainClass> -->
+            </manifest>
+            <!-- <manifestEntries> -->
+              <!-- <mode>development</mode> -->
+              <!-- <key>value</key> -->
+            <!-- </manifestEntries> -->
+          </archive>
+        </configuration>
+      </plugin>
+      <!-- <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <author>true</author>
+          <version>true</version>
+          <quiet>true</quiet>
+          <show>private</show>
+          <locale>en_US</locale>
+          <reportOutputDirectory>./docs/</reportOutputDirectory>
+          <destDir>./javadoc/</destDir>
+          <doctitle>Javadoc of Formiko</doctitle>
+          <windowtitle>Javadoc of Formiko</windowtitle>
+          <stylesheetfile>docs/javadoc/styles.css</stylesheetfile>
+          <header>
+            &#60;ul id="buttons-bar"&#62;
+              &#60;li class="mainButon" id="button-home-page"&#62;&#60;a href="https://formiko.fr/"&#62;Home&#60;/a&#62;&#60;/li&#62;
+              &#60;li class="mainButon" id="button-download-page"&#62;&#60;a href="https://formiko.fr/download"&#62;Download&#60;/a&#62;&#60;/li&#62;
+              &#60;li class="mainButon" id="button-github-page"&#62;&#60;a href="https://github.com/HydrolienF/Formiko/"&#62;Github&#60;/a&#62;&#60;/li&#62;
+              &#60;li class="mainButon" id="button-javadoc-page"&#62;&#60;a href="https://formiko.fr/Formiko/javadoc/"&#62;Javadoc&#60;/a&#62;&#60;/li&#62;
+            &#60;/ul&#62;
+          </header>
+          <additionalparam>-Xdoclint:none</additionalparam>
+          <additionalOptions>-Xdoclint:none</additionalOptions>
+          <additionalJOption>-Xdoclint:none</additionalJOption>
+        </configuration>
+      </plugin> -->
+    </plugins>
+  </build>
+</project>
