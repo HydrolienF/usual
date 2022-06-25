@@ -25,6 +25,7 @@ jobs:
       run: |
         wget https://github.com/HydrolienF/Version-Tool/archive/refs/tags/0.5.7.zip
         unzip 0.5.7.zip
+        mv Version-Tool-0.5.7/*.sh .
 
     - name: Version-Tool
       uses: HydrolienF/Version-Tool@0.5.7
