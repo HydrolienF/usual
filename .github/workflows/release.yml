@@ -16,10 +16,10 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v2
-    - name: Set up JDK 18
+    - name: Set up JDK
       uses: actions/setup-java@v1
       with:
-        java-version: 18
+        java-version: 16
 
     - name: download Version-Tool
       run: |
