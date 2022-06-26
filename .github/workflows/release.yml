@@ -31,11 +31,9 @@ jobs:
       uses: HydrolienF/Version-Tool@0.5.7
       id: version
 
-    - name: update version.md
-      run: echo ${{ steps.version.outputs.version }} > version.md
-
     - name: to .jar
       run: |
+        mvn -ntp versions:set -DnewVersion="$${{ steps.version.outputs.version }}"
         mvn -ntp package
         mv target/FormikoUsual-${{ steps.version.outputs.version }}-jar-with-dependencies.jar FormikoUsual${{ steps.version.outputs.version }}.jar
 
