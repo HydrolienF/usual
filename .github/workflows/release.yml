@@ -30,13 +30,16 @@ jobs:
     - name: Version-Tool
       uses: HydrolienF/Version-Tool@0.5.7
       id: version
+    - name: update version.md
+      run: echo ${{ steps.version.outputs.version }} > version.md
 
-    - name: update pom version
+    - name: update pom version and push
       run: |
         mvn -ntp versions:set -DnewVersion="${{ steps.version.outputs.version }}"
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add pom.xml
+        git add version.md
         git commit -m "Auto version update"
         git push
 
