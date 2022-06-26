@@ -20,6 +20,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 16
+    - name: Set up mvn
+      run: alias mvn="mvn -ntp"
 
     - name: download Version-Tool
       run: |
