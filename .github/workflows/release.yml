@@ -20,8 +20,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 16
-    - name: Set up mvn
-      run: alias mvn="mvn -ntp"
 
     - name: download Version-Tool
       run: |
@@ -38,7 +36,7 @@ jobs:
 
     - name: to .jar
       run: |
-        mvn package
+        mvn -ntp package
         mv target/FormikoUsual-${{ steps.version.outputs.version }}-jar-with-dependencies.jar FormikoUsual${{ steps.version.outputs.version }}.jar
 
 

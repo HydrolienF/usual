@@ -289,8 +289,14 @@ public class Folder {
     while(needToRetry){
       while(!launchDownload){ // while not first time or player haven't clic on retry, wait.
         try {
-          wait();
-        }catch (InterruptedException e) {}
+          synchronized (this) {
+            wait();
+          }
+        // }catch (InterruptedException ie) {}
+        }catch (Exception e) {
+          System.out.println(e);//@a
+          e.printStackTrace();//@a
+        }
       }
       prepareDownloadData();
       Chrono.startCh();
