@@ -9,7 +9,7 @@
   <groupId>fr.formiko</groupId>
   <artifactId>FormikoUsual</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.21</version>
+  <version>0.1.23</version>
   <name>Usual</name>
   <url>https://formiko.fr</url>
 
@@ -69,7 +69,6 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <release>16</release>
           <source>16</source>
           <target>16</target>
           <compilerArgument>-Xlint:all</compilerArgument>
