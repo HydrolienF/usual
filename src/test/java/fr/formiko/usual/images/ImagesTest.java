@@ -27,18 +27,8 @@ public class ImagesTest extends TestCaseMuet {
     // Main.ini();
     Folder.setFolder(new Folder(new ProgressionNull()));
   }
-  private void ini(){
-    Folder folder = new Folder(new ProgressionNull());
-    folder.ini();
-    Folder.setFolder(folder);
-  }
   @Test
   public void testReadImage(){
-    File f = new File(Folder.getFolder().getFolderStable()+Folder.getFolder().getFolderImages()+"null.png");
-    Image iNull = Images.readImage(f);
-    assertTrue(iNull!=null);
-    assertTrue(f.isFile());//il n'as pas été supprimé lors de la lecture
-
     //répertoire d'image.
     Folder folder = new Folder(new ProgressionNull());
     folder.ini(false);
@@ -46,7 +36,7 @@ public class ImagesTest extends TestCaseMuet {
     int x = allea.getAllea(1000)+100;
     Img img = new Img(1,1);
     img.sauvegarder("testImage"+x+".png");
-    f = new File(Folder.getFolder().getFolderTemporary()+Folder.getFolder().getFolderImages()+"testImage"+x+".png");
+    File f = new File(Folder.getFolder().getFolderTemporary()+Folder.getFolder().getFolderImages()+"testImage"+x+".png");
     Image i = Images.readImage(f);
     assertTrue(i!=null);
     assertTrue(f.isFile());//il n'as pas été supprimé lors de la lecture
@@ -78,23 +68,6 @@ public class ImagesTest extends TestCaseMuet {
     assertTrue(i3!=null);
     assertTrue(f.isFile());//il n'as pas été supprimé lors de la lecture
     assertTrue(f.delete());//il ce supprime bien.
-  }
-  //getImage
-  @Test
-  public void testGetImage(){
-    ini();
-    Image nul = Images.getImage("null");
-    Image i0 = Images.getImage("vbfizefzeg.png");
-    //faute de savoir comment comparé les images sans prendre en compte meur adresse mémoire on supose que la taille est assez propre a chaque image.
-    assertTrue(i0!=null);
-    assertEquals(nul.getWidth(null),i0.getWidth(null));
-    Image i1 = Images.getImage("b0.png");
-    Image i2 = Images.getImage("b0");
-    Image i3 = Images.getImage("b0",Folder.getFolder().getFolderStable()+Folder.getFolder().getFolderImages());//si on cherche dans le bon répertoire.
-    Image i4 = Images.getImage("b0","./"); //si on cherche dans un mauvais répertoire.
-    assertEquals(i1.getWidth(null),i2.getWidth(null));
-    assertEquals(i1.getWidth(null),i3.getWidth(null));
-    assertEquals(null,i4);
   }
 
   //getImages

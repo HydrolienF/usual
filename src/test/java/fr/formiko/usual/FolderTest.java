@@ -20,7 +20,7 @@ public class FolderTest extends TestCaseMuet {
     new TestCaseMuet();
     Os.setOs(new Os());
     Folder.setFolder(new Folder(new ProgressionNull()));
-    Folder.getFolder().ini();
+    Folder.getFolder().ini(false);
   }
   public Folder ini(){
     Folder folder = new Folder(new ProgressionNull());
