@@ -33,8 +33,9 @@ jobs:
 
     - name: to .jar
       run: |
-        mvn -ntp versions:set -DnewVersion="$${{ steps.version.outputs.version }}"
+        mvn -ntp versions:set -DnewVersion="${{ steps.version.outputs.version }}"
         mvn -ntp package
+        ls target
         mv target/FormikoUsual-${{ steps.version.outputs.version }}-jar-with-dependencies.jar FormikoUsual${{ steps.version.outputs.version }}.jar
 
 
