@@ -1,5 +1,5 @@
 install:
-  - VERSION=$(echo version.md)
+  - VERSION=$(cat version.md)
   - wget https://github.com/HydrolienF/usual/releases/download/$VERSION/FormikoUsual$VERSION.jar
   - FILE="-Dfile=FormikoUsual$VERSION.jar"
   - mvn install:install-file $FILE -DgroupId=com.github.user -DartifactId=repo -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
