@@ -31,9 +31,17 @@ jobs:
       uses: HydrolienF/Version-Tool@0.5.7
       id: version
 
-    - name: to .jar
+    - name: update pom version
       run: |
         mvn -ntp versions:set -DnewVersion="${{ steps.version.outputs.version }}"
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add pom.xml
+        git commit -m "Auto version update"
+        git push
+
+    - name: to .jar
+      run: |
         mvn -ntp package
         ls target
         mv target/FormikoUsual-${{ steps.version.outputs.version }}-jar-with-dependencies.jar FormikoUsual${{ steps.version.outputs.version }}.jar
