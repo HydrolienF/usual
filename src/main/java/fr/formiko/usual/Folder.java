@@ -66,8 +66,8 @@ public class Folder {
     }
   }
   // GET SET -------------------------------------------------------------------
-  public static Folder getFolder(){return folder;}
-  public static void setFolder(Folder f){folder=f;}
+  public static synchronized Folder getFolder(){return folder;}
+  public static synchronized void setFolder(Folder f){folder=f;}
 
 	public String getFolderMain() {return folderMain+"data/";}
 	public void setFolderMain(String folderMain) {this.folderMain = str.sToDirectoryName(folderMain);}
