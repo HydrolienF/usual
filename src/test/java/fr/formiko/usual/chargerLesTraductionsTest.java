@@ -18,7 +18,7 @@ public class chargerLesTraductionsTest extends TestCaseMuet {
     // Main.ini();
     Os.setOs(new Os());
     Folder.setFolder(new Folder(new ProgressionNull()));
-    Folder.getFolder().ini();
+    Folder.getFolder().ini(false);
   }
   @AfterAll
   public static void out(){
@@ -79,47 +79,12 @@ public class chargerLesTraductionsTest extends TestCaseMuet {
     assertEquals(-1,chargerLesTraductions.getLanguage("a"));
     assertEquals(-1,chargerLesTraductions.getLanguage("zauvfbiano"));
   }
-  //iniTLangue
-  @Test
-  public void testIniTLangue(){
-    //fonctionnement normale.
-    assertTrue(chargerLesTraductions.iniTLangue());
-    //test dans un autre environement
-    String rep = chargerLesTraductions.getRep();
-    chargerLesTraductions.setRep("");
-    assertTrue(!chargerLesTraductions.iniTLangue());
-    assertEquals(1,chargerLesTraductions.getTLangue().length);//iniTLangue a dû s'auto corrigé en chargant juste l'anglais.
-    chargerLesTraductions.setRep(rep);
-    assertTrue(chargerLesTraductions.iniTLangue());
-    assertEquals(107,chargerLesTraductions.getTLangue().length);
-    chargerLesTraductions.setRep(null);
-  }
 
   @Test
-  public void testCreerLesFichiers(){
-    //fonctionnement normale.
-    chargerLesTraductions.setRep(null);
-    assertTrue(chargerLesTraductions.iniTLangue());
-    assertTrue(chargerLesTraductions.créerLesFichiers());
-    //test dans un autre environement
-    int x = TestCaseMuet.getId();
-    File f = new File("testDir"+x);
-    f.mkdir();
-    chargerLesTraductions.setRep("testDir"+x);
-    assertTrue(chargerLesTraductions.créerLesFichiers());
-    String tf [] = f.list();
-    assertEquals(107,tf.length);
-    assertTrue(tableau.contient(tf,"en.txt"));
-    assertTrue(tableau.contient(tf,"fr.txt"));
-    assertTrue(tableau.contient(tf,"zu.txt"));
-    assertTrue(tableau.contient(tf,"eo.txt"));
-    assertTrue(!tableau.contient(tf,"ep.txt"));
-    assertTrue(!tableau.contient(tf,"zfag.txt"));
-    assertTrue(!tableau.contient(tf,"eo"));
-    assertTrue(fichier.deleteDirectory(f));
+  public void testCreerLesFichiers2(){
     //test avec un autre tableau de langue.
     int y = TestCaseMuet.getId();
-    f = new File("testDir"+y);
+    File f = new File("testDir"+y);
     f.mkdir();
     String tf2 [] = {"atta.txt","n","ocotô.md"};
     chargerLesTraductions.setTLangue(tf2);
@@ -198,15 +163,14 @@ public class chargerLesTraductionsTest extends TestCaseMuet {
   //getTableauDesCmd
   @Test
   public void testGetTableauDesCmd(){
-    String t [] = chargerLesTraductions.getTableauDesCmd();
-    assertTrue(t.length>1);//Le fichier contient des lignes (et donc a bien été lu).
     int x = TestCaseMuet.getId();
 
     File f = new File("testDir"+x);
     f.mkdir();
     File ft = new File("testDir"+x+"/te.txt");
     try {
-      assertTrue(ft.createNewFile());assertTrue(ft.exists());
+      assertTrue(ft.createNewFile());
+      assertTrue(ft.exists());
     }catch (Exception e) {assertTrue(false);}
     chargerLesTraductions.setRep("testDir"+x);
     String t2 [] = chargerLesTraductions.getTableauDesCmd();
@@ -216,42 +180,6 @@ public class chargerLesTraductionsTest extends TestCaseMuet {
     chargerLesTraductions.setRep(null);
   }
 
-  //chargerLesTraductions
-  @Test
-  public void testChargerLesTraductions(){
-    // Main.iniTranslationFolder();
-    chargerLesTraductions.setRep(null);
-    assertTrue(chargerLesTraductions.iniTLangue());
-    Map<String, String> fr = chargerLesTraductions.chargerLesTraductions(1);
-    assertEquals("testFr",fr.get("test"));
-    Map<String, String> eo = chargerLesTraductions.chargerLesTraductions(0);
-    assertEquals("testEo",eo.get("test"));
-    Map<String, String> zu = chargerLesTraductions.chargerLesTraductions(chargerLesTraductions.getLanguage("zu"));
-    assertEquals("testZu",zu.get("test"));
-    //si c'est pas une langue existante.
-    Map<String, String> zz = chargerLesTraductions.chargerLesTraductions(chargerLesTraductions.getLanguage("zz"));
-    assertEquals("testEn",zz.get("test"));
-    assertTrue(!zz.get("test").equals("testZz"));
-
-
-    assertEquals("test",fr.get("cmd.1"));
-    assertEquals("test",eo.get("cmd.1"));
-    assertEquals("test",zu.get("cmd.1"));
-  }
-
-  //chargerLesTraductionsSansCommande
-  @Test
-  public void testChargerLesTraductionsSansCommande(){
-    // Main.iniTranslationFolder();
-    chargerLesTraductions.setRep(null);
-    assertTrue(chargerLesTraductions.iniTLangue());
-    Map<String, String> zu = chargerLesTraductions.chargerLesTraductions(chargerLesTraductions.getLanguage("zu"));
-    assertEquals("testZu",zu.get("test"));
-    //si c'est pas une langue existante.
-    Map<String, String> zz = chargerLesTraductions.chargerLesTraductions(chargerLesTraductions.getLanguage("zz"));
-    assertEquals("testEn",zz.get("test"));//si la langue n'existe pas on passe a l'anglais.
-    assertTrue(!zz.get("test").equals("testZz"));
-  }
 
   //addObjetMap
   @Test

@@ -21,10 +21,12 @@ import java.nio.file.Paths;
 *You can acces to file by using getters.
 *Ex : getFolderStable()+getFolderImages() will return the path to stable images.
 *@author Hydrolien
-*@lastEditedVersion 2.25
+*@lastEditedVersion 2.26
 */
 public class Folder {
-  private static Folder folder;
+  // TODO #579 Move formiko data from Folder to FFolder
+  protected static String ROOT_PATH;
+  protected static Folder folder;
   private static String DEFAULT_NULL_VERSION="0.0.0";
   private String folderMain="data/";
   private String folderStable="stable/";
@@ -66,8 +68,8 @@ public class Folder {
     }
   }
   // GET SET -------------------------------------------------------------------
-  public static synchronized Folder getFolder(){return folder;}
-  public static synchronized void setFolder(Folder f){folder=f;}
+  public static Folder getFolder(){return folder;}
+  public static void setFolder(Folder f){folder=f;}
 
 	public String getFolderMain() {return folderMain+"data/";}
 	public void setFolderMain(String folderMain) {this.folderMain = str.sToDirectoryName(folderMain);}
@@ -289,14 +291,8 @@ public class Folder {
     while(needToRetry){
       while(!launchDownload){ // while not first time or player haven't clic on retry, wait.
         try {
-          synchronized (this) {
-            wait();
-          }
-        // }catch (InterruptedException ie) {}
-        }catch (Exception e) {
-          System.out.println(e);//@a
-          e.printStackTrace();//@a
-        }
+          wait();
+        }catch (InterruptedException e) {}
       }
       prepareDownloadData();
       Chrono.startCh();
