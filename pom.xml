@@ -9,7 +9,7 @@
   <groupId>fr.formiko</groupId>
   <artifactId>FormikoUsual</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.29</version>
+  <version>0.1.31</version>
   <name>Usual</name>
   <url>https://formiko.fr</url>
 
@@ -142,7 +142,7 @@
           </archive>
         </configuration>
       </plugin>
-      <!-- <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.3.1</version>
@@ -169,7 +169,7 @@
           <additionalOptions>-Xdoclint:none</additionalOptions>
           <additionalJOption>-Xdoclint:none</additionalJOption>
         </configuration>
-      </plugin> -->
+      </plugin>
     </plugins>
   </build>
 </project>
