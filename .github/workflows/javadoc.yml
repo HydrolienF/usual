@@ -29,6 +29,7 @@ jobs:
           git config pull.rebase true
           git add docs/
           git commit -m "Auto javadoc update"
+          git fetch
           git pull
           git push
         fi
