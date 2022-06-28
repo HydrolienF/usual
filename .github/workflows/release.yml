@@ -37,6 +37,7 @@ jobs:
         mvn -ntp versions:set -DnewVersion="${{ steps.version.outputs.version }}"
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git config pull.rebase true
         git add pom.xml
         git add version.md
         git commit -m "Auto version update"
