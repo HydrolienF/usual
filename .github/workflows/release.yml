@@ -22,12 +22,12 @@ jobs:
 
     - name: download Version-Tool
       run: |
-        wget https://github.com/HydrolienF/Version-Tool/archive/refs/tags/0.6.0.zip
-        unzip 0.6.0.zip
-        mv Version-Tool-0.6.0/*.sh .
+        wget https://github.com/HydrolienF/Version-Tool/archive/refs/tags/0.6.2.zip
+        unzip 0.6.2.zip
+        mv Version-Tool-0.6.2/*.sh .
 
     - name: Version-Tool
-      uses: HydrolienF/Version-Tool@0.6.0
+      uses: HydrolienF/Version-Tool@0.6.2
       id: version
     - name: update version.md
       run: echo ${{ steps.version.outputs.version }} > version.md
