@@ -81,44 +81,52 @@ public class Translation {
     return sr;
   }
   /**
+  *{@summary Translate the web site files.}<br>
+  *@param pathToWebSiteFile path to acces to web site files.
+  *@param pathToWebSiteTranslation path to acces to translation files.
+  *@lastEditedVersion 2.27
+  */
+  public static void translateWebSite(String pathToWebSiteFile, String pathToWebSiteTranslation){
+    Os.setOs(new Os());
+    Folder.setFolder(new Folder(new ProgressionNull()));
+    // Main.iniOp();
+    chargerLesTraductions.setRep(pathToWebSiteTranslation);
+    chargerLesTraductions.iniTLangue();
+    // Chrono ch = new Chrono();
+    // Main.startCh(ch);
+    for (int i=0; i<3; i++) {
+      HashMap<String,String> hm = chargerLesTraductions.chargerLesTraductions(i);
+      g.setMap(hm);
+      Translation.translateWebSiteFiles(pathToWebSiteFile, i);
+    }
+    // Main.endCh("translateWebSite",ch);
+    // chargerLesTraductions.setRep(null);
+  }
+  /**
+  *{@summary Translate the web site files.}<br>
+  *@param pathToGit path to acces all files.
+  *@lastEditedVersion 2.27
+  */
+  public static void translateWebSite(String pathToGit){
+    translateWebSite(pathToGit+"docs/", pathToGit+"docs/data/language/");
+  }
+  /**
   *{@summary Translate all web site file for curent language.}<br>
   *It need to have the good path to web site file.
-  *@lastEditedVersion 1.48
+  *@lastEditedVersion 2.27
   */
   public static void translateWebSiteFiles(String pathToWebSiteFile, int languageId){
     // String pathToWebSiteFile = "../HydrolienF.github.io/docs/";
     String language = chargerLesTraductions.getLanguage(languageId);
-    File index = new File(pathToWebSiteFile+"Newindex.html");
-    GString gsr = new GString();
-    if(index.exists()){
-      GString gs = ReadFile.readFileGs(index);
-      for (String s : gs ) {
-        gsr.add(replaceTranslation(s));
-      }
-    }else{
-      String path = "unknow";
-      try {
-        path = index.getCanonicalPath();
-      }catch (Exception e) {}
-      erreur.erreur("can't read "+path);
-    }
-    ecrireUnFichier.ecrireUnFichier(gsr,pathToWebSiteFile+language+"/"+"index.html");
+    File directory = new File(pathToWebSiteFile+"ini/");
 
-    File download = new File(pathToWebSiteFile+"Newdownload.html");
-    gsr = new GString();
-    if(index.exists()){
-      GString gs = ReadFile.readFileGs(download);
-      for (String s : gs ) {
-        gsr.add(replaceTranslation(s));
+    for (File fileToTranslate : directory.listFiles()) {
+      GString out = new GString();
+      for (String s : ReadFile.readFileGs(fileToTranslate)) {
+        out.add(replaceTranslation(s));
       }
-    }else{
-      String path = "unknow";
-      try {
-        path = index.getCanonicalPath();
-      }catch (Exception e) {}
-      erreur.erreur("can't read "+path);
+      ecrireUnFichier.ecrireUnFichier(out,pathToWebSiteFile+language+"/"+fileToTranslate.getName());
     }
-    ecrireUnFichier.ecrireUnFichier(gsr,pathToWebSiteFile+language+"/"+"download.html");
   }
   /**
   *{@summary Translate a String by replacing €{key} by the translation of key.}<br>
