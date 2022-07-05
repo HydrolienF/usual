@@ -13,7 +13,7 @@ public class SaveTest extends TestCaseMuet {
   private Folder f;
   @Test
   public void testSave(){
-    f = new Folder(new ProgressionNull());
+    f = new Folder();
     Folder.setFolder(f);
     Save save = Save.getSave();
     int idS = save.getIdS();

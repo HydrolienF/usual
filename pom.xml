@@ -45,7 +45,7 @@
 
   <build>
     <plugins>
-      <!-- <plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.0.0</version>
@@ -58,12 +58,12 @@
         </executions>
         <configuration>
           <executable>maven</executable>
-          <mainClass>fr.formiko.formikolauncher.Main</mainClass>
+          <mainClass>fr.formiko.usual.Usual</mainClass>
           <arguments>
             <args>${args}</args>
           </arguments>
         </configuration>
-      </plugin> -->
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

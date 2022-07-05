@@ -17,7 +17,7 @@ public class chargerLesTraductionsTest extends TestCaseMuet {
   public static void iniMain(){
     // Main.ini();
     Os.setOs(new Os());
-    Folder.setFolder(new Folder(new ProgressionNull()));
+    Folder.setFolder(new Folder());
     Folder.getFolder().ini(false);
   }
   @AfterAll

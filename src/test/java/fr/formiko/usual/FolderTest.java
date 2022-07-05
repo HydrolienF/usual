@@ -151,7 +151,7 @@ public class FolderTest extends TestCaseMuet {
 
   @Test
   public void testCleanFolder(){
-    Folder f = new Folder(new ProgressionNull());
+    Folder f = new Folder();
     int x = getId();
     f.setFolderMain("data"+x+"/");
     f.ini(false);
@@ -175,7 +175,7 @@ public class FolderTest extends TestCaseMuet {
   }
   @Test
   public void testCleanFolder2(){
-    Folder f = new Folder(new ProgressionNull());
+    Folder f = new Folder();
     int x = getId();
     f.setFolderMain("data"+x+"/");
     File fileToRemove = new File("data"+x+"/");
