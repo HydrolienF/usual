@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import fr.formiko.tests.TestCaseMuet;
 import fr.formiko.usual.Folder;
-import fr.formiko.usual.ProgressionNull;
 import fr.formiko.usual.fichier;
 import fr.formiko.usual.images.Images;
 import fr.formiko.usual.images.Img;
@@ -25,12 +24,12 @@ public class ImagesTest extends TestCaseMuet {
   public static void iniMain(){
     // new imageTest();
     // Main.ini();
-    Folder.setFolder(new Folder(new ProgressionNull()));
+    Folder.setFolder(new Folder());
   }
   @Test
   public void testReadImage(){
     //répertoire d'image.
-    Folder folder = new Folder(new ProgressionNull());
+    Folder folder = new Folder();
     folder.ini(false);
     Folder.setFolder(folder);
     int x = allea.getAllea(1000)+100;
@@ -73,7 +72,7 @@ public class ImagesTest extends TestCaseMuet {
   //getImages
   @Test
   public void testGetImages(){
-    Folder folder = new Folder(new ProgressionNull());
+    Folder folder = new Folder();
     folder.setFolderMain("imassertTrue(fichier.deleteDirectory(new File(folder.getFolderMain().substring(0,folder.getFolderMain().length()-5))));lsSPEC"+getId());
     folder.ini(false);
     Folder.setFolder(folder);
@@ -102,7 +101,7 @@ public class ImagesTest extends TestCaseMuet {
   // public void testGetImagess(){
   //   Main.iniOp();
   //   Main.getOp().setOrientedObjectOnMap(true);
-  //   Folder folder = new Folder(new ProgressionNull());
+  //   Folder folder = new Folder();
   //   folder.setFolderMain("testDirIT"+getId());
   //   folder.ini(false);
   //   Folder.setFolder(folder);
@@ -195,7 +194,7 @@ public class ImagesTest extends TestCaseMuet {
   @Test
   public void testGetNbrImagesREP3(){
     //on vérifie que d'éventuelles images complémentaire présente dans REPTEXTUREPACK seront bien chargée.
-    Folder folder = new Folder(new ProgressionNull());
+    Folder folder = new Folder();
     folder.setFolderMain("testDirIT"+getId());
     folder.ini(false);
     Folder.setFolder(folder);
@@ -226,7 +225,7 @@ public class ImagesTest extends TestCaseMuet {
   @Test
   public void testClearTemporaire(){
     File f = null;
-    Folder folder = new Folder(new ProgressionNull());
+    Folder folder = new Folder();
     folder.setFolderMain("imageTestFodler"+getId());
     folder.ini(false);
     Folder.setFolder(folder);
@@ -462,7 +461,7 @@ public class ImagesTest extends TestCaseMuet {
 
   @AfterAll
   public static void clean(){
-    Folder folder = new Folder(new ProgressionNull());
+    Folder folder = new Folder();
     Folder.setFolder(folder);
     fichier.deleteDirectory("null");
   }

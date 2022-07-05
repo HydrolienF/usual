@@ -28,7 +28,7 @@ public class Folder {
   protected static String ROOT_PATH;
   protected static Folder folder;
   private static String DEFAULT_NULL_VERSION="0.0.0";
-  private String folderMain="data/";
+  private String folderMain=".formiko/";
   private String folderStable="stable/";
   private String folderTemporary="temporary/";
   private String folderResourcesPacks="resourcesPacks/";
@@ -51,7 +51,12 @@ public class Folder {
   private static boolean newVersionAviableTestDone=false;
   private Progression progression;
   private static boolean firstGame;
-
+  /**
+  *{@summary Main constructor. Create a Folder & initialize all needed thing.}<br>
+  *After creating it, we can use any getter.
+  *@param progression the progression interface where it can say how download or unzip is working.
+  *@lastEditedVersion 2.26
+  */
   public Folder(Progression progression){
     secondTime=false;
     this.progression=progression;
@@ -67,11 +72,21 @@ public class Folder {
       }
     }
   }
+  /**
+  *{@summary Create a Folder & initialize all needed thing.}<br>
+  *After creating it, we can use any getter.
+  *Progression will not be used.
+  *@lastEditedVersion 2.26
+  */
+  public Folder(){
+    this(new ProgressionNull());
+  }
   // GET SET -------------------------------------------------------------------
   public static Folder getFolder(){return folder;}
   public static void setFolder(Folder f){folder=f;}
 
 	public String getFolderMain() {return folderMain+"data/";}
+  public String getFolderGameJar() {return folderMain+"game/";}
 	public void setFolderMain(String folderMain) {this.folderMain = str.sToDirectoryName(folderMain);}
   public void setFolderMain() {setFolderMain("");}
 	public String getFolderStable() {return getFolderMain()+folderStable;}

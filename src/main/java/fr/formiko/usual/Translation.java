@@ -1,16 +1,17 @@
 package fr.formiko.usual;
 
+import fr.formiko.usual.ReadFile;
 import fr.formiko.usual.chargerLesTraductions;
 import fr.formiko.usual.debug;
 import fr.formiko.usual.ecrireUnFichier;
 import fr.formiko.usual.erreur;
 import fr.formiko.usual.g;
-import fr.formiko.usual.ReadFile;
 import fr.formiko.usual.structures.listes.GString;
 import fr.formiko.usual.types.str;
 
 import java.awt.Font;
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -113,17 +114,17 @@ public class Translation {
   /**
   *{@summary Translate all web site file for curent language.}<br>
   *It need to have the good path to web site file.
+  *@param pathToWebSiteFile path to acces to web site files.
   *@lastEditedVersion 2.27
   */
   public static void translateWebSiteFiles(String pathToWebSiteFile, int languageId){
-    // String pathToWebSiteFile = "../HydrolienF.github.io/docs/";
     String language = chargerLesTraductions.getLanguage(languageId);
     File directory = new File(pathToWebSiteFile+"ini/");
 
-    for (File fileToTranslate : directory.listFiles()) {
+    for (File fileToTranslate : Arrays.stream(directory.listFiles()).sorted().toList()) {
       GString out = new GString();
       for (String s : ReadFile.readFileGs(fileToTranslate)) {
-        out.add(replaceTranslation(s));
+        out.add(replaceTranslation(s, pathToWebSiteFile+language+"/"));
       }
       ecrireUnFichier.ecrireUnFichier(out,pathToWebSiteFile+language+"/"+fileToTranslate.getName());
     }
@@ -131,10 +132,10 @@ public class Translation {
   /**
   *{@summary Translate a String by replacing €{key} by the translation of key.}<br>
   *@param s the String to translate
-  *@lastEditedVersion 1.48
+  *@param pathToWebSiteFile path to acces to web site files.
+  *@lastEditedVersion 2.27
   */
-  //TODO test
-  public static String replaceTranslation(String s){
+  public static String replaceTranslation(String s, String pathToWebSiteFile){
     // replaceAll​("€[^€]", String replacement)
     String sr = "";
     boolean euro=false;
@@ -145,7 +146,11 @@ public class Translation {
       if (readingKey) { //if were reading the key.
         if(c=='}'){ //if it just end.
           readingKey=false;
-          sr+=g.get(key);
+          if(key.startsWith("cmd:")){
+            sr+=execCmd(key.substring(4), pathToWebSiteFile);
+          }else{
+            sr+=g.get(key);
+          }
           key="";
         }else{ //if were still readinf the key.
           key+=c;
@@ -167,6 +172,32 @@ public class Translation {
       }
     }
     return sr;
+  }
+  /**
+  *{@summary Exec a command request in a file to translate.}<br>
+  *@param s the String to exec
+  *@param pathToWebSiteFile path to acces to web site files.
+  *@lastEditedVersion 2.27
+  */
+  private static String execCmd(String s, String pathToWebSiteFile){
+    String cmd="";
+    String args="";
+    boolean inArgs=false;
+    for (char c : s.toCharArray()) {
+      if(c==' '){
+        inArgs=true;
+      }else if(inArgs){
+        args+=c;
+      }else{
+        cmd+=c;
+      }
+    }
+    switch(cmd){
+      case "include":
+      return ReadFile.readFile(pathToWebSiteFile+args);
+      default:
+      return "";
+    }
   }
   /**
   *{@summary Count how many time every char is used in a language map.}<br>
