@@ -85,6 +85,7 @@ public class Folder {
   public static Folder getFolder(){return folder;}
   public static void setFolder(Folder f){folder=f;}
 
+  public String getFolderRoot() {return folderMain;}
 	public String getFolderMain() {return folderMain+"data/";}
   public String getFolderGameJar() {return folderMain+"game/";}
 	public void setFolderMain(String folderMain) {this.folderMain = str.sToDirectoryName(folderMain);}
@@ -312,7 +313,7 @@ public class Folder {
       prepareDownloadData();
       Chrono.startCh();
       getProgression().setDownloadingMessage("downloading game data");
-      boolean downloadWork = download("https://github.com/HydrolienF/Formiko/releases/download/"+getWantedDataVersion()+"/data.zip", getFolderMain()+"data.zip", true, getProgression());
+      boolean downloadWork = download("https://github.com/HydrolienF/Formiko/releases/download/"+getWantedDataVersion()+"/data.zip", getFolderRoot()+"data.zip", true, getProgression());
       Chrono.endCh("downloadData");
       if(downloadWork){
         needToRetry = !unzipAndCleanDownloadData();
@@ -344,13 +345,13 @@ public class Folder {
   private boolean unzipAndCleanDownloadData(){
     Chrono.startCh();
     getProgression().setDownloadingMessage("unziping game data");
-    fichier.unzip(getFolderMain()+"data.zip",getFolderMain().substring(0,getFolderMain().length()-5));
+    fichier.unzip(getFolderRoot()+"data.zip",getFolderRoot());
     Chrono.endCh("unzipData");
     getProgression().setDownloadingValue(105);
     System.gc();
     getProgression().setDownloadingMessage("cleaning folders");
-    if(!fichier.deleteDirectory(getFolderMain()+"data.zip")){
-      erreur.alerte("unable to delete "+getFolderMain()+"data.zip");
+    if(!fichier.deleteDirectory(getFolderRoot()+"data.zip")){
+      erreur.alerte("unable to delete "+getFolderRoot()+"data.zip");
       return false;
     }else{
       return true;
@@ -570,6 +571,29 @@ public class Folder {
   *@lastEditedVersion 2.25
   */
   public static boolean download(String urlPath, String fileName, Progression progression){return download(urlPath, fileName, false, progression);}
+  /**
+  *{@summary Download &#38; unzip a .zip from the web.}<br>
+  * It also update progression.
+  *@param urlPath the url as a String
+  *@param folderName the name of the folder were to save data from the web
+  *@param withInfo if true launch a thread to have info during download
+  *@lastEditedVersion 2.26
+  */
+  public boolean downloadAndUnzip(String urlPath, String folderName, boolean withInfo){
+    boolean downloadWork=download(urlPath, getFolderRoot()+"temp.zip", withInfo, getProgression());
+    if(!downloadWork){return downloadWork;}
+    getProgression().setDownloadingMessage("unziping");
+    fichier.unzip(getFolderRoot()+"temp.zip", folderName);
+    getProgression().setDownloadingValue(105);
+    // System.gc();
+    getProgression().setDownloadingMessage("cleaning folders");
+    if(!fichier.deleteDirectory(getFolderRoot()+"temp.zip")){
+      erreur.alerte("unable to delete zip file "+getFolderRoot()+"temp.zip");
+      return false;
+    }else{
+      return true;
+    }
+  }
 }
 /**
 *{@summary Download music data from github release in a Thread.}<br>
@@ -590,15 +614,15 @@ class ThDownloadMusicData extends Thread {
   public void run(){
     erreur.info("downloadMusicData");
     Chrono.startCh();
-    Folder.download("https://github.com/HydrolienF/Formiko/releases/download/"+folder.getWantedMusicVersion()+"/music.zip",folder.getFolderMain()+"music.zip", progression);
+    Folder.download("https://github.com/HydrolienF/Formiko/releases/download/"+folder.getWantedMusicVersion()+"/music.zip",folder.getFolderRoot()+"music.zip", progression);
     Chrono.endCh("downloadMusicData");
     erreur.info("downloadMusicData done");
     Chrono.startCh();
-    fichier.unzip(folder.getFolderMain()+"music.zip",folder.getFolderStable());
+    fichier.unzip(folder.getFolderRoot()+"music.zip",folder.getFolderStable());
     Chrono.endCh("unzipMusicData");
     System.gc();
-    if(!fichier.deleteDirectory(folder.getFolderMain()+"music.zip")){
-      erreur.alerte("unable to delete "+folder.getFolderMain()+"music.zip");
+    if(!fichier.deleteDirectory(folder.getFolderRoot()+"music.zip")){
+      erreur.alerte("unable to delete "+folder.getFolderRoot()+"music.zip");
     }
     mp.iniAvailableMusics();
   }
