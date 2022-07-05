@@ -1,6 +1,7 @@
 install:
   - sleep 5
-  - git pull
+  - rm version.md
+  - wget https://raw.githubusercontent.com/HydrolienF/usual/master/version.md
   - VERSION=$(cat version.md)
   - wget https://github.com/HydrolienF/usual/releases/download/$VERSION/FormikoUsual$VERSION.jar
   - FILE="-Dfile=FormikoUsual$VERSION.jar"
