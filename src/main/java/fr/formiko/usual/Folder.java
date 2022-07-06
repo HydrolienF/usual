@@ -169,6 +169,8 @@ public class Folder {
   */
   public int ini(boolean allowedDownolad){
     missingFolder=0;
+    File fgj = new File(getFolderGameJar());
+    fgj.mkdirs();
     File f = new File(getFolderMain());
     // if(newVersionAviable()){
     //   erreur.info("A new version, "+getLastStableVersion()+" is aviable at https://formiko.fr/download");
