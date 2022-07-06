@@ -127,8 +127,16 @@ public class Folder {
 
   public static boolean getFirstGame(){return firstGame;}
   public static void setFirstGame(boolean b){firstGame=b;}
-
-  public static String getVersion(){return version;}
+  /**
+  *{@summary Return version &#38; initialize it to last downloaded version if needed.}<br>
+  *@lastEditedVersion 2.27
+  */
+  public static String getVersion(){
+    if(version==null){
+      version=getLastDownloadedGameVersion();
+    }
+    return version;
+  }
   public static void setVersion(String version){Folder.version=version;}
 
   /**
