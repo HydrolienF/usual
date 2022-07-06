@@ -652,6 +652,13 @@ public class Folder {
       return null;
     }
   }
+  /**
+  *{@summary Return true if user have last version.}<br>
+  *@lastEditedVersion 2.27
+  */
+  public boolean haveLastVersion(){
+    return getLastDownloadedGameVersion().equals(getLastStableVersion());
+  }
 }
 /**
 *{@summary Download music data from github release in a Thread.}<br>
