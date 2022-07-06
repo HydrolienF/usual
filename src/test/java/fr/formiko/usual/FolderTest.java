@@ -242,32 +242,32 @@ public class FolderTest extends TestCaseMuet {
     fichier.deleteDirectory(fileToRemove);
     folder.setFolderMain();
   }
-  @Test
-  @Disabled("Some changes have been done")
-  public void testGetVersionJsonPath(){
-    GString gs = ReadFile.readFileGs("version.json");
-    assertTrue(gs.length()>0);
-    fichier.deleteDirectory("version.json");
-    // assertEquals(Paths.get(""),Folder.getVersionJsonPath()); //formiko may be instal & it can find Program Files rep
-    File f = new File("version.json");
-    try {
-      f.createNewFile();
-    }catch (Exception e) {assertTrue(false);}
-    assertEquals(Paths.get("version.json"),Folder.getVersionJsonPath());
-    File f2 = new File("app/version.json");
-    File rep = new File("app");
-    rep.mkdirs();
-    // f2.delete();
-    try {
-      f2.createNewFile();
-    }catch (Exception e) {assertTrue(false);}
-    assertEquals(Paths.get("version.json"),Folder.getVersionJsonPath());
-    f.delete();
-    assertEquals(Paths.get("app/version.json"),Folder.getVersionJsonPath());
-    assertTrue(fichier.deleteDirectory(rep));
-    // assertEquals(Paths.get(""),Folder.getVersionJsonPath()); //formiko may be instal & it can find Program Files rep
-    ecrireUnFichier.ecrireUnFichier(gs,"version.json");
-  }
+  // @Test
+  // @Disabled("Some changes have been done")
+  // public void testGetVersionJsonPath(){
+  //   GString gs = ReadFile.readFileGs("version.json");
+  //   assertTrue(gs.length()>0);
+  //   fichier.deleteDirectory("version.json");
+  //   // assertEquals(Paths.get(""),Folder.getVersionJsonPath()); //formiko may be instal & it can find Program Files rep
+  //   File f = new File("version.json");
+  //   try {
+  //     f.createNewFile();
+  //   }catch (Exception e) {assertTrue(false);}
+  //   assertEquals(Paths.get("version.json"),Folder.getVersionJsonPath());
+  //   File f2 = new File("app/version.json");
+  //   File rep = new File("app");
+  //   rep.mkdirs();
+  //   // f2.delete();
+  //   try {
+  //     f2.createNewFile();
+  //   }catch (Exception e) {assertTrue(false);}
+  //   assertEquals(Paths.get("version.json"),Folder.getVersionJsonPath());
+  //   f.delete();
+  //   assertEquals(Paths.get("app/version.json"),Folder.getVersionJsonPath());
+  //   assertTrue(fichier.deleteDirectory(rep));
+  //   // assertEquals(Paths.get(""),Folder.getVersionJsonPath()); //formiko may be instal & it can find Program Files rep
+  //   ecrireUnFichier.ecrireUnFichier(gs,"version.json");
+  // }
   @Test
   public void testGetLastStableVersion(){
     Folder f = new Folder(new ProgressionNull());
