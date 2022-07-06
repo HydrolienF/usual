@@ -174,6 +174,14 @@ public class Translation {
     return sr;
   }
   /**
+  *{@summary Translate a String by replacing €{key} by the translation of key.}<br>
+  *@param s the String to translate
+  *@lastEditedVersion 2.27
+  */
+  public static String replaceTranslation(String s){
+    return replaceTranslation(s, (String)null);
+  }
+  /**
   *{@summary Exec a command request in a file to translate.}<br>
   *@param s the String to exec
   *@param pathToWebSiteFile path to acces to web site files.
