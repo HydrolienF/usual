@@ -5,9 +5,9 @@ import com.github.cliftonlabs.json_simple.Jsoner;
 
 import fr.formiko.usual.Chrono;
 import fr.formiko.usual.exceptions.MissingFolderException;
-import fr.formiko.usual.types.str;
-import fr.formiko.usual.structures.listes.GString;
 import fr.formiko.usual.media.audio.MusicPlayer;
+import fr.formiko.usual.structures.listes.GString;
+import fr.formiko.usual.types.str;
 
 import java.io.File;
 import java.io.Reader;
@@ -15,6 +15,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
 *{@summary Class that have all link to all folder of formiko.}<br>
@@ -51,6 +54,8 @@ public class Folder {
   private static boolean newVersionAviableTestDone=false;
   private Progression progression;
   private static boolean firstGame;
+
+  private static String version;
   /**
   *{@summary Main constructor. Create a Folder & initialize all needed thing.}<br>
   *After creating it, we can use any getter.
@@ -122,6 +127,9 @@ public class Folder {
 
   public static boolean getFirstGame(){return firstGame;}
   public static void setFirstGame(boolean b){firstGame=b;}
+
+  public static String getVersion(){return version;}
+  public static void setVersion(String version){Folder.version=version;}
 
   /**
   *{@summary Initialize the main folder name depending of OS.}<br>
@@ -399,6 +407,7 @@ public class Folder {
   *@lastEditedVersion 2.7
   */
   public String getCurentVersion(){
+    if(getVersion()!=null){return getVersion();}
     GString gs = ReadFile.readFileGs(getVersionMdPath());
     if(gs.isEmpty()){
       erreur.alerte("can't read curent game version");
@@ -478,36 +487,41 @@ public class Folder {
   }
   /**
   *{@summary return the path to version.x.}<br>
-  *@lastEditedVersion 2.10
+  *@lastEditedVersion 2.26
   */
-  public static Path getVersionPath(String fileName){
+  public Path getVersionPath(String fileName){
     //if in curent folder because running with maven
     File f = new File(fileName);
     if(f.exists()){
       return Paths.get(f.getPath());
     }
-    //else search depending of OS
-    if(Os.getOs().isWindows()){
-      f = new File(System.getenv("ProgramFiles")+"/Formiko/app/"+fileName);
-      if(f.exists()){
-        return Paths.get(f.getPath());
-      }
-    }else if(Os.getOs().isMac()){
-      f = new File("/Applications/Formiko.app/Contents/app/"+fileName);
-      if(f.exists()){
-        return Paths.get(f.getPath());
-      }
-    }else{
-      f = new File("/opt/formiko/lib/app/"+fileName);
-      if(f.exists()){
-        return Paths.get(f.getPath());
-      }
-    }
-    //last try just in case
-    f = new File("app/"+fileName);
+    // else it is in getFolderGameJar
+    f = new File(getFolderGameJar()+getVersion()+"/"+fileName);
     if(f.exists()){
       return Paths.get(f.getPath());
     }
+    // //else search depending of OS
+    // if(Os.getOs().isWindows()){
+    //   f = new File(System.getenv("ProgramFiles")+"/Formiko/app/"+fileName);
+    //   if(f.exists()){
+    //     return Paths.get(f.getPath());
+    //   }
+    // }else if(Os.getOs().isMac()){
+    //   f = new File("/Applications/Formiko.app/Contents/app/"+fileName);
+    //   if(f.exists()){
+    //     return Paths.get(f.getPath());
+    //   }
+    // }else{
+    //   f = new File("/opt/formiko/lib/app/"+fileName);
+    //   if(f.exists()){
+    //     return Paths.get(f.getPath());
+    //   }
+    // }
+    // //last try just in case
+    // f = new File("app/"+fileName);
+    // if(f.exists()){
+    //   return Paths.get(f.getPath());
+    // }
     erreur.alerte("Can't fined "+fileName+" path");
     return Paths.get("");
   }
@@ -516,14 +530,14 @@ public class Folder {
   *Curent version is in version.md.
   *@lastEditedVersion 2.10
   */
-  public static Path getVersionMdPath(){
+  public Path getVersionMdPath(){
     return getVersionPath("version.md");
   }
   /**
   *{@summary return the path to version.json.}<br>
   *@lastEditedVersion 2.10
   */
-  public static Path getVersionJsonPath(){
+  public Path getVersionJsonPath(){
     return getVersionPath("version.json");
   }
   /**
@@ -592,6 +606,35 @@ public class Folder {
       return false;
     }else{
       return true;
+    }
+  }
+  //tools
+  /**
+  *{@summary Test if arrays have version.}<br>
+  *@param t the arrays where to find version
+  *@param version the version tofind
+  *@lastEditedVersion 2.26
+  */
+  public static boolean containsVersion(String t[], String version){
+    for (String s : t) {
+      if(s.contains(version)){return true;}
+    }
+    return false;
+  }
+  /**
+  *{@summary Return the last version currently on the computer.}<br>
+  *@lastEditedVersion 2.26
+  */
+  public static String getLastDownloadedGameVersion(){
+    File gameJarFolder = new File(getFolder().getFolderGameJar());
+    if(gameJarFolder.list().length>0){
+      List<Version> versions = new ArrayList<Version>();
+      for (String folderV : gameJarFolder.list()) {
+        versions.add(new Version(folderV));
+      }
+      return Collections.max(versions).get();
+    }else{
+      return null;
     }
   }
 }
