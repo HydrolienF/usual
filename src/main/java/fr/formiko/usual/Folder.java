@@ -133,7 +133,11 @@ public class Folder {
   */
   public static String getVersion(){
     if(version==null){
-      version=getLastDownloadedGameVersion();
+      try {
+        version=getLastDownloadedGameVersion();
+      }catch (Exception e) {
+        version=DEFAULT_NULL_VERSION;
+      }
     }
     return version;
   }
