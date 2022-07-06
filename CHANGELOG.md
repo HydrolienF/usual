@@ -1,1 +1,1 @@
-Version.java allow to do some comparison between version string.
+try some update with version use for launcher.
