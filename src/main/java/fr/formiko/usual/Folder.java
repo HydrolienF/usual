@@ -51,7 +51,7 @@ public class Folder {
   private boolean secondTime;
   private boolean launchDownload;
 
-  private static boolean newVersionAviableTestDone=false;
+  // private static boolean newVersionAviableTestDone=false;
   private Progression progression;
   private static boolean firstGame;
 
@@ -158,9 +158,9 @@ public class Folder {
   public int ini(boolean allowedDownolad){
     missingFolder=0;
     File f = new File(getFolderMain());
-    if(newVersionAviable()){
-      erreur.info("A new version, "+getLastStableVersion()+" is aviable at https://formiko.fr/download");
-    }
+    // if(newVersionAviable()){
+    //   erreur.info("A new version, "+getLastStableVersion()+" is aviable at https://formiko.fr/download");
+    // }
     try{
       if(!f.exists() || f.listFiles().length==0){
         setFirstGame(true);
@@ -381,27 +381,27 @@ public class Folder {
     if(!wantedDataVersion.equals(curentDataVersion)){return true;}
     return false;
   }
-  /**
-  *{@summary Return true if a new version is aviable.}<br>
-  *If last stable version > curent version.<br>
-  *@lastEditedVersion 2.7
-  */
-  public boolean newVersionAviable(){
-    if(newVersionAviableTestDone){return false;}
-    newVersionAviableTestDone=true;
-    try {
-      return isOver(getLastStableVersion(), getCurentVersion());
-    }catch (Exception e) {
-      return false;
-    }
-  }
-  /**
-  *{@summary Return true if v1 > v2.}<br>
-  *@lastEditedVersion 2.7
-  */
-  public boolean isOver(String v1, String v2){
-    return str.isVersionOver(v1,v2);
-  }
+  // /**
+  // *{@summary Return true if a new version is aviable.}<br>
+  // *If last stable version > curent version.<br>
+  // *@lastEditedVersion 2.7
+  // */
+  // public boolean newVersionAviable(){
+  //   if(newVersionAviableTestDone){return false;}
+  //   newVersionAviableTestDone=true;
+  //   try {
+  //     return isOver(getLastStableVersion(), getCurentVersion());
+  //   }catch (Exception e) {
+  //     return false;
+  //   }
+  // }
+  // /**
+  // *{@summary Return true if v1 > v2.}<br>
+  // *@lastEditedVersion 2.7
+  // */
+  // public boolean isOver(String v1, String v2){
+  //   return str.isVersionOver(v1,v2);
+  // }
   /**
   *{@summary Return the version that game have.}<br>
   *@lastEditedVersion 2.7
@@ -497,6 +497,7 @@ public class Folder {
     }
     // else it is in getFolderGameJar
     f = new File(getFolderGameJar()+getVersion()+"/"+fileName);
+    erreur.info("Searching for "+f);
     if(f.exists()){
       return Paths.get(f.getPath());
     }
