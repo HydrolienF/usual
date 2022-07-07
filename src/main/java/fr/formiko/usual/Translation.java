@@ -291,4 +291,53 @@ public class Translation {
   public static boolean canDisplayLanguage(int id, String fontName){
     return canDisplayLanguage(id, new Font(fontName, Font.PLAIN, 1));
   }
+
+
+  /**
+  *{@summary Update files content as fr.txt while keeping the knowed translation.}<br>
+  *@lastEditedVersion 2.27
+  */
+  public static void updateTranslation(){
+    chargerLesTraductions.iniTLangue();
+    int lentl=chargerLesTraductions.getTLangue().length;
+    String defaultLines[] = chargerLesTraductions.getTableauDesTrad(1);
+    for (int i=0;i<lentl ;i++ ) {
+      if(i==1){break;}
+      saveTranslation(i, updateTranslation(i, defaultLines));
+    }
+  }
+  /**
+  *{@summary Get the List of the line of an updated translation file.}<br>
+  *@param id id of the language to use
+  *@param defaultLines List of the lines of the defaut file
+  *@lastEditedVersion 2.27
+  */
+  private static GString updateTranslation(int id, String defaultLines[]){
+    // String sLangue=chargerLesTraductions.getLanguage(langue);
+    Map<String, String> map = chargerLesTraductions.chargerLesTraductions(id);
+    GString gs = new GString();
+    for (String s : defaultLines) {
+      if(chargerLesTraductions.estLigneDeTrad(s)){
+        String t [] = s.split(":");
+        s=t[0];
+        if(map.get(s)!=null){
+          s+=":"+map.get(s);
+        }else{
+          s+=":";
+        }
+      }
+      gs.add(s);
+    }
+    return gs;
+  }
+  /**
+  *{@summary Save the translation updated in the file.}<br>
+  *@param id id of the language to save
+  *@param fileLines List of the lines of the file to save
+  *@lastEditedVersion 2.27
+  */
+  private static void saveTranslation(int id, GString fileLines){
+    String sLangue=chargerLesTraductions.getLanguage(id);
+    ecrireUnFichier.ecrireUnFichier(fileLines,chargerLesTraductions.getRep()+sLangue+".txt");
+  }
 }
