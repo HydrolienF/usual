@@ -21,6 +21,10 @@ public class Translation {
   private static String getFolderTrad(){
     return chargerLesTraductions.getRep();
   }
+  /**
+  *{@summary Update files content as fr.txt while keeping the knowed translation.}<br>
+  *@lastEditedVersion 2.27
+  */
   @SuppressWarnings("unchecked")
   public static void copieTrads(){
     String tLangue[] = chargerLesTraductions.getTLangue();
@@ -34,50 +38,71 @@ public class Translation {
         trad[i-1]=chargerLesTraductions.chargerLesTraductions(i);
       }
       int k=0;
+      String defaultLines [] = ReadFile.readFileArray(getFolderTrad()+"fr.txt");
       for (String s :tLangue ) {
         if(!s.equals("fr")){
-          copieTradBase(s,trad[k]);k++;
+          copieTradBase(s,trad[k], defaultLines);k++;
         }
       }
     }catch (Exception e) {
       erreur.erreur("La mise au format standard des traductions a échouée.");
     }
   }
-  public static void copieTradBase(String se, Map<String,String> map){
-    String t [] = ReadFile.readFileArray(getFolderTrad()+"fr.txt");
+  /**
+  *{@summary Save the List of the line of an updated translation file.}<br>
+  *@param se curent language
+  *@param map translation map of the curent language
+  *@param defaultLines List of the lines of the defaut file
+  *@lastEditedVersion 2.27
+  */
+  private static void copieTradBase(String se, Map<String,String> map, String [] defaultLines){
     GString gs = new GString();
-    for (String s : t) {
+    for (String s : defaultLines) {
       if(chargerLesTraductions.estLigneDeTrad(s) && !str.contient(s,"[]",2)){//si c'est une ligne de trad qui ne correspond pas a un nom propre.
         if(str.contient(s,"test:",0)){gs.add("test:test"+str.sToSMaj(se));}
-        else{gs.add(ligneTradBase(s,map));}//edited
+        else{gs.add(toTranslationLine(s,map));}//edited
       }else{
         gs.add(s);//not edited
       }
     }
     ecrireUnFichier.ecrireUnFichier(gs,getFolderTrad()+se+".txt");
   }
-  public static String ligneTradBase(String s, Map<String,String> map){
-    String s2 = debutDeLigne(s);
-    boolean changé=false;
+  /**
+  *{@summary Save the List of the line of an updated translation file.}<br>
+  *@param lineIn the translation line
+  *@param map translation map of the curent language
+  *@return a new translation line that may be juste key:
+  *@lastEditedVersion 2.27
+  */
+  private static String toTranslationLine(String lineIn, Map<String,String> map){
+    String key = keyInTranslationLine(lineIn);
+    boolean updated=false;
+    String lineOut="";
     for (String s4 : map.keySet()) { // s4 vaut les clés.
-      if (s4.equals(s2)){ //si on reconnait la clé dans la map.
-        s2 = s2+sep+map.get(s4);
-        changé=true; break;
+      if (s4.equals(key)){ //si on reconnait la clé dans la map.
+        lineOut = key+sep+map.get(s4);
+        updated=true; break;
       }
     }
     //dans ce cas on n'enregistre pas la valeur de la traduction :
-    if(!changé){s2 = s2 +sep;}
+    if(!updated){lineOut = key+sep;}
     //Si la ligne ce termine par [], on ne le modifie pas car c'est un nom propre.
-    return s2;
+    return lineOut;
   }
-  public static String debutDeLigne(String s){
-    int lens = s.length();
+  /**
+  *{@summary Save the List of the line of an updated translation file.}<br>
+  *@param line the translation line
+  *@param map translation map of the curent language
+  *@lastEditedVersion 2.27
+  */
+  public static String keyInTranslationLine(String line){
+    int lens = line.length();
     String sr="";int i=0;char c = ' ';
-    if (lens !=0 ){ c = s.charAt(i);}
-    if(lens > 1 && c=='\\' && s.charAt(1)=='\\'){return s;}
+    if (lens !=0 ){ c = line.charAt(i);}
+    if(lens > 1 && c=='\\' && line.charAt(1)=='\\'){return line;}
     for (i=1;i<lens && c!=':';i++ ) {
       sr = sr+c;
-      c = s.charAt(i);
+      c = line.charAt(i);
     }
     return sr;
   }
@@ -290,54 +315,5 @@ public class Translation {
   */
   public static boolean canDisplayLanguage(int id, String fontName){
     return canDisplayLanguage(id, new Font(fontName, Font.PLAIN, 1));
-  }
-
-
-  /**
-  *{@summary Update files content as fr.txt while keeping the knowed translation.}<br>
-  *@lastEditedVersion 2.27
-  */
-  public static void updateTranslation(){
-    chargerLesTraductions.iniTLangue();
-    int lentl=chargerLesTraductions.getTLangue().length;
-    String defaultLines[] = chargerLesTraductions.getTableauDesTrad(1);
-    for (int i=0;i<lentl ;i++ ) {
-      if(i==1){break;}
-      saveTranslation(i, updateTranslation(i, defaultLines));
-    }
-  }
-  /**
-  *{@summary Get the List of the line of an updated translation file.}<br>
-  *@param id id of the language to use
-  *@param defaultLines List of the lines of the defaut file
-  *@lastEditedVersion 2.27
-  */
-  private static GString updateTranslation(int id, String defaultLines[]){
-    // String sLangue=chargerLesTraductions.getLanguage(langue);
-    Map<String, String> map = chargerLesTraductions.chargerLesTraductions(id);
-    GString gs = new GString();
-    for (String s : defaultLines) {
-      if(chargerLesTraductions.estLigneDeTrad(s)){
-        String t [] = s.split(":");
-        s=t[0];
-        if(map.get(s)!=null){
-          s+=":"+map.get(s);
-        }else{
-          s+=":";
-        }
-      }
-      gs.add(s);
-    }
-    return gs;
-  }
-  /**
-  *{@summary Save the translation updated in the file.}<br>
-  *@param id id of the language to save
-  *@param fileLines List of the lines of the file to save
-  *@lastEditedVersion 2.27
-  */
-  private static void saveTranslation(int id, GString fileLines){
-    String sLangue=chargerLesTraductions.getLanguage(id);
-    ecrireUnFichier.ecrireUnFichier(fileLines,chargerLesTraductions.getRep()+sLangue+".txt");
   }
 }
