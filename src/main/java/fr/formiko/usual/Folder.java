@@ -208,8 +208,7 @@ public class Folder {
         return ini();
       }
     }catch (Exception e) {
-      // erreur.erreur();
-      e.printStackTrace();//@a
+      erreur.erreur("an error occured when fixing file : "+e);
     }
     if(missingFolder>0){
       erreur.info(missingFolder+" folders were missing & were add.");
@@ -332,7 +331,9 @@ public class Folder {
     while(needToRetry){
       while(!launchDownload){ // while not first time or player haven't clic on retry, wait.
         try {
-          wait();
+          synchronized (this) {
+            wait();
+          }
         }catch (InterruptedException e) {}
       }
       prepareDownloadData();
