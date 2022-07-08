@@ -165,17 +165,17 @@ public class Folder {
   *It will call download if main folder is missing.<br>
   *It will send an info if some were missing and an error if some unfixable folder were missing.
   *@param allowedDownolad true if we can download files.
-  *@lastEditedVersion 1.46
+  *@lastEditedVersion 2.27
   */
   public int ini(boolean allowedDownolad){
     missingFolder=0;
-    File fgj = new File(getFolderGameJar());
-    fgj.mkdirs();
-    File f = new File(getFolderMain());
-    // if(newVersionAviable()){
-    //   erreur.info("A new version, "+getLastStableVersion()+" is aviable at https://formiko.fr/download");
-    // }
     try{
+      File fgj = new File(getFolderGameJar());
+      fgj.mkdirs();
+      File f = new File(getFolderMain());
+      // if(newVersionAviable()){
+      //   erreur.info("A new version, "+getLastStableVersion()+" is aviable at https://formiko.fr/download");
+      // }
       if(!f.exists() || f.listFiles().length==0){
         setFirstGame(true);
         f.mkdirs();
@@ -207,6 +207,9 @@ public class Folder {
         secondTime=true;
         return ini();
       }
+    }catch (Exception e) {
+      // erreur.erreur();
+      e.printStackTrace();//@a
     }
     if(missingFolder>0){
       erreur.info(missingFolder+" folders were missing & were add.");
