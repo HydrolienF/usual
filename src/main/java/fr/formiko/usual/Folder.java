@@ -348,7 +348,9 @@ public class Folder {
       // }
       while(!launchDownload){ // while not first time or player haven't clic on retry, wait.
         try {
-          wait();
+          synchronized (this) {
+            wait();
+          }
         }catch (InterruptedException e) {}
       }
       prepareDownloadData();
