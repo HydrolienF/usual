@@ -200,7 +200,7 @@ public class erreur {
     }else if(s.length()==1){
       s=s.substring(0,1).toUpperCase();
     }
-    if(!s.endsWith(".") && !s.endsWith("!") && !s.endsWith("?") && !s.endsWith(":")){
+    if(!s.endsWith(".") && !s.endsWith("!") && !s.endsWith("?") && !s.endsWith(":") && !s.endsWith("\n")){
       s+=".";
     }
     return s;
