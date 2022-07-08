@@ -332,19 +332,24 @@ public class Folder {
     launchDownload=true;
     boolean needToRetry = true;
     while(needToRetry){
+      // while(!launchDownload){ // while not first time or player haven't clic on retry, wait.
+      //   getProgression().setDownloadingMessage("downloading will retry in 1s");
+      //   erreur.alerte("wait for retry in 1s");
+      //   System.out.println("wait for retry in 1s");//@a
+      //   try {
+      //     synchronized (this) {
+      //       wait(1000);
+      //     }
+      //   }catch (Exception e) {
+      //     System.out.println("Fail to wait");//@a
+      //     e.printStackTrace();
+      //   }
+      //   launchDownload=true;
+      // }
       while(!launchDownload){ // while not first time or player haven't clic on retry, wait.
-        getProgression().setDownloadingMessage("downloading will retry in 1s");
-        erreur.alerte("wait for retry in 1s");
-        System.out.println("wait for retry in 1s");//@a
         try {
-          synchronized (this) {
-            wait(1000);
-          }
-        }catch (Exception e) {
-          System.out.println("Fail to wait");//@a
-          e.printStackTrace();
-        }
-        launchDownload=true;
+          wait();
+        }catch (InterruptedException e) {}
       }
       prepareDownloadData();
       Chrono.startCh();
