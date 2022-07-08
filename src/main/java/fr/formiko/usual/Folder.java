@@ -337,13 +337,14 @@ public class Folder {
         erreur.alerte("wait for retry in 1s");
         System.out.println("wait for retry in 1s");//@a
         try {
-          // synchronized (this) {
+          synchronized (this) {
             wait(1000);
-          // }
+          }
         }catch (Exception e) {
           System.out.println("Fail to wait");//@a
           e.printStackTrace();
         }
+        launchDownload=true;
       }
       prepareDownloadData();
       Chrono.startCh();
