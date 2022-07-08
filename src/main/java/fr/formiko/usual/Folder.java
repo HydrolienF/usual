@@ -325,7 +325,7 @@ public class Folder {
   /**
   *{@summary Download main data from github release.}<br>
   *It need Main.version to be correct to work.<br>
-  *@lastEditedVersion 2.7
+  *@lastEditedVersion 2.28
   */
   public void downloadData(){
     getProgression().iniLauncher();
@@ -337,10 +337,13 @@ public class Folder {
         erreur.alerte("wait for retry in 1s");
         System.out.println("wait for retry in 1s");//@a
         try {
-          synchronized (this) {
+          // synchronized (this) {
             wait(1000);
-          }
-        }catch (InterruptedException e) {}
+          // }
+        }catch (Exception e) {
+          System.out.println("Fail to wait");//@a
+          e.printStackTrace();
+        }
       }
       prepareDownloadData();
       Chrono.startCh();
