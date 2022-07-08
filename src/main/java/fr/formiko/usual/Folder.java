@@ -183,7 +183,10 @@ public class Folder {
         if(allowedDownolad){throw new MissingFolderException("main");}
       }else if(needToUpdateDataVersion()){
         erreur.alerte("A compatible data version ("+getWantedDataVersion()+") is downloaded");
-        if(allowedDownolad){downloadData();}
+        if(allowedDownolad){
+          downloadData();
+          allowedDownolad=false;//no more try
+        }
       }
 
       f = new File(getFolderMain()+"Options.md");
@@ -330,9 +333,12 @@ public class Folder {
     boolean needToRetry = true;
     while(needToRetry){
       while(!launchDownload){ // while not first time or player haven't clic on retry, wait.
+        getProgression().setDownloadingMessage("downloading will retry in 1s");
+        erreur.alerte("wait for retry in 1s");
+        System.out.println("wait for retry in 1s");//@a
         try {
           synchronized (this) {
-            wait();
+            wait(1000);
           }
         }catch (InterruptedException e) {}
       }
