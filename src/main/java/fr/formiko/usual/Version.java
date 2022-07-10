@@ -69,7 +69,7 @@ public class Version implements Comparable<Version> {
     if(v2 == null)
       return false;
     if(v2 instanceof String)
-      return toString().equals(v2);
+      return equals(new Version((String)v2));
     if(this.getClass() != v2.getClass())
       return false;
     return this.compareTo((Version) v2) == 0;

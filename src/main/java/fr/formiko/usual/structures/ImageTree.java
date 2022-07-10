@@ -22,7 +22,7 @@ public class ImageTree extends Tree<BufferedImage> {
   *{@summary Simple builder.}
   *@lastEditedVersion 2.25
   */
-  public ImageTree newImageTree(){
+  public static ImageTree newImageTree(){
     return new ImageTree();
   }
   /**

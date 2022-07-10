@@ -126,12 +126,12 @@ public class decoderUnFichier {
     return tr;
   }
 
-  public static int [] getTableauIntDeLaLigne(String ligne){
-    return ent.ent(getTableauStringDeLaLigne(ligne));
-  }
-  public static int [][] getTableauTableauIntDeLaLigne(String ligne){
-    return ent.ent(getTableauTableauStringDeLaLigne(ligne));
-  }
+  // public static int [] getTableauIntDeLaLigne(String ligne){
+  //   return ent.ent(getTableauStringDeLaLigne(ligne));
+  // }
+  // public static int [][] getTableauTableauIntDeLaLigne(String ligne){
+  //   return ent.ent(getTableauTableauStringDeLaLigne(ligne));
+  // }
 
   public static int getNbrDeCharDansStr(String s, char c){
     int lens = s.length(); int kr =0;

@@ -416,30 +416,9 @@ public class Folder {
     if(!wantedDataVersion.equals(curentDataVersion)){return true;}
     return false;
   }
-  // /**
-  // *{@summary Return true if a new version is aviable.}<br>
-  // *If last stable version > curent version.<br>
-  // *@lastEditedVersion 2.7
-  // */
-  // public boolean newVersionAviable(){
-  //   if(newVersionAviableTestDone){return false;}
-  //   newVersionAviableTestDone=true;
-  //   try {
-  //     return isOver(getLastStableVersion(), getCurentVersion());
-  //   }catch (Exception e) {
-  //     return false;
-  //   }
-  // }
-  // /**
-  // *{@summary Return true if v1 > v2.}<br>
-  // *@lastEditedVersion 2.7
-  // */
-  // public boolean isOver(String v1, String v2){
-  //   return str.isVersionOver(v1,v2);
-  // }
   /**
   *{@summary Return the version that game have.}<br>
-  *@lastEditedVersion 2.7
+  *@lastEditedVersion 2.28
   */
   public String getCurentVersion(){
     if(getVersion()!=null && !getVersion().equals(DEFAULT_NULL_VERSION)){return getVersion();}

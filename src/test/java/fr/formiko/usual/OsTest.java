@@ -58,6 +58,11 @@ public class OsTest extends TestCaseMuet {
     Os os = new Os();
     assertTrue(os.getARCH()!=null);
   }
+  @Test
+  public void testGetOs(){
+    Os.setOs(null);
+    assertNotNull(Os.getOs());//will create a new os
+  }
   @AfterAll
   public static void resetOs(){
     erreur.println("clean");
