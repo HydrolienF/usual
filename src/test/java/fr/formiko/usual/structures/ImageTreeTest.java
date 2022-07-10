@@ -8,6 +8,7 @@ import fr.formiko.usual.structures.ImageTree;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ImageTreeTest extends TestCaseMuet {
@@ -114,5 +115,34 @@ public class ImageTreeTest extends TestCaseMuet {
     tree.folderToTree("testDir"+x);
     assertEquals("0(0(0,1I,2))",tree.toString());
     assertTrue(fichier.deleteDirectory(dirTested));
+  }
+  @Test
+  public void testBuilder(){
+    ImageTree it = ImageTree.newImageTree();
+  }
+  @Test
+  public void testCopyStructure(){
+    ImageTree it = new ImageTree();
+    ImageTree itcp = it.copyStructure();
+    // need tree to implements equals function to work
+    // assertEquals(it, itcp);
+    it.getRoot().setContent(new BufferedImage(10,9,BufferedImage.TYPE_INT_ARGB));
+    assertNotEquals(it, itcp);
+  }
+  @Test
+  public void testFolderToTreeNull(){
+    ImageTree tree = new ImageTree();
+    assertEquals(0,tree.getRoot().getChildrenSize());
+    tree.folderToTree(new File("dontExist135295"));
+    assertEquals(0,tree.getRoot().getChildrenSize());
+    File f = new File("Exist135295");
+    try {
+      f.createNewFile();
+    }catch (IOException e) {
+      assertTrue(false);
+    }
+    f.deleteOnExit();
+    tree.folderToTree(f);
+    assertEquals(0,tree.getRoot().getChildrenSize());
   }
 }
