@@ -24,4 +24,42 @@ public class VersionTest extends TestCaseMuet {
     assertTrue(v.compareTo(v3)<0);
     assertTrue(v.compareTo(v5)>0);
   }
+  @Test
+  public void testCompareToNull(){
+    Version v = new Version("1.2.3");
+    assertFalse(v.equals(null));
+    assertTrue(v.compareTo(null)>0);
+  }
+  @Test
+  public void testToString(){
+    Version v = new Version("3.41.4");
+    assertEquals(v.toString(),"3.41.4");
+  }
+  @Test
+  public void testBadArgument(){
+    assertThrows(IllegalArgumentException.class, () -> new Version(null));
+    assertThrows(IllegalArgumentException.class, () -> new Version("versionQuatre"));
+    assertThrows(IllegalArgumentException.class, () -> new Version("v1.2.3"));
+  }
+  @Test
+  public void testEqualsString(){
+    Version v = new Version("3.41.4");
+    assertTrue(v.equals("3.41.4"));
+    assertFalse(v.equals("3.41.1"));
+    assertFalse(v.equals("3.42.4"));
+    assertFalse(v.equals("2.42.4"));
+  }
+  @Test
+  public void testEqualsFalse(){
+    Version v = new Version("3.41.4");
+    assertFalse(v.equals(Integer.valueOf(3)));
+    assertFalse(v.equals(new Os()));
+  }
+  @Test
+  public void testCompareTo0(){
+    Version v = new Version("3.41.4");
+    assertTrue(v.equals(new Version("3.41.4.0")));
+    v = new Version("3.41.0");
+    assertTrue(v.equals(new Version("3.41")));
+  }
 }
