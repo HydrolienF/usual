@@ -405,6 +405,6 @@ class DownloadThread extends Thread {
       lastFileOutSize=fileOutSize;
       Time.pause(50);
     }
-    // erreur.info("download done");
+    erreur.info("download done");
   }
 }

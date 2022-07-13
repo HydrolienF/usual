@@ -574,11 +574,12 @@ public class Folder {
   *@lastEditedVersion 2.25
   */
   public static boolean download(String urlPath, String fileName, boolean withInfo, Progression progression){
+    boolean worked=false;
     try {
       progression.setButtonRetryVisible(false);
     }catch (NullPointerException e) {}
     try {
-      fichier.download2(urlPath,fileName,withInfo,progression);
+      worked=fichier.download2(urlPath,fileName,withInfo,progression);
     }catch (Exception e) {
       String err = "Download fail: "+e;
       try {
@@ -587,9 +588,9 @@ public class Folder {
       }catch (Exception e2) {
         erreur.erreur(err);
       }
-      return false;
+      return worked;
     }
-    return true;
+    return worked;
   }
   /***
   *{@summary Download a file from the web.}<br>
