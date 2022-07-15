@@ -129,14 +129,13 @@ public class Folder {
   public static void setFirstGame(boolean b){firstGame=b;}
   /**
   *{@summary Return version &#38; initialize it to last downloaded version if needed.}<br>
-  *@lastEditedVersion 2.27
+  *@lastEditedVersion 2.28
   */
   public static String getVersion(){
     if(version==null){
-      try {
-        version=getLastDownloadedGameVersion();
-      }catch (Exception e) {
-        version=DEFAULT_NULL_VERSION;
+      version=getLastDownloadedGameVersion();
+      if(version==null){
+        return DEFAULT_NULL_VERSION;
       }
     }
     return version;
@@ -429,6 +428,9 @@ public class Folder {
     }
     return gs.getFirst();
   }
+  public String getCurentFormikoVersion(){
+
+  }
   /**
   *{@summary Return the curent data version that game have.}<br>
   *@lastEditedVersion 2.7
@@ -574,11 +576,12 @@ public class Folder {
   *@lastEditedVersion 2.25
   */
   public static boolean download(String urlPath, String fileName, boolean withInfo, Progression progression){
+    boolean worked=false;
     try {
       progression.setButtonRetryVisible(false);
     }catch (NullPointerException e) {}
     try {
-      fichier.download2(urlPath,fileName,withInfo,progression);
+      worked=fichier.download2(urlPath,fileName,withInfo,progression);
     }catch (Exception e) {
       String err = "Download fail: "+e;
       try {
@@ -587,9 +590,9 @@ public class Folder {
       }catch (Exception e2) {
         erreur.erreur(err);
       }
-      return false;
+      return worked;
     }
-    return true;
+    return worked;
   }
   /***
   *{@summary Download a file from the web.}<br>
