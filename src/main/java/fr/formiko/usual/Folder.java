@@ -428,9 +428,6 @@ public class Folder {
     }
     return gs.getFirst();
   }
-  public String getCurentFormikoVersion(){
-
-  }
   /**
   *{@summary Return the curent data version that game have.}<br>
   *@lastEditedVersion 2.7
