@@ -87,7 +87,7 @@ public class Folder {
     this(new ProgressionNull());
   }
   // GET SET -------------------------------------------------------------------
-  public static Folder getFolder(){return folder;}
+  public static Folder getFolder(){if(folder==null){folder=new Folder();}return folder;}
   public static void setFolder(Folder f){folder=f;}
 
   public String getFolderRoot() {return folderMain;}
