@@ -129,14 +129,13 @@ public class Folder {
   public static void setFirstGame(boolean b){firstGame=b;}
   /**
   *{@summary Return version &#38; initialize it to last downloaded version if needed.}<br>
-  *@lastEditedVersion 2.27
+  *@lastEditedVersion 2.28
   */
   public static String getVersion(){
     if(version==null){
-      try {
-        version=getLastDownloadedGameVersion();
-      }catch (Exception e) {
-        version=DEFAULT_NULL_VERSION;
+      version=getLastDownloadedGameVersion();
+      if(version==null){
+        return DEFAULT_NULL_VERSION;
       }
     }
     return version;
@@ -428,6 +427,9 @@ public class Folder {
       return DEFAULT_NULL_VERSION;
     }
     return gs.getFirst();
+  }
+  public String getCurentFormikoVersion(){
+
   }
   /**
   *{@summary Return the curent data version that game have.}<br>
