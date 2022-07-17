@@ -88,4 +88,13 @@ public class fichierTest extends TestCaseMuet{
     assertTrue(fichier.deleteDirectory("testDir"+x));
   }
 
+  @Test
+  public void testDownloadAndUnzip(){
+    File f = new File("jlink"+getId()+"/");
+    assertTrue(fichier.downloadAndUnzip("https://github.com/HydrolienF/JRE/releases/download/18.0.1/jlink.zip", f.toString(), "jWindows/legal/java.xml/"));
+    File licenceFile = new File(f+"/LICENSE");
+    assertTrue(licenceFile.exists());
+    assertTrue(fichier.deleteDirectory(f));
+  }
+
 }
