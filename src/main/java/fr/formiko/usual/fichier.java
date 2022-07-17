@@ -256,40 +256,22 @@ public class fichier {
     }
   }
   /**
-  *{@summary a class to unzip file.}<br>
+  *{@summary Unzip a zip file.}<br>
   *cf https://www.baeldung.com/java-compress-and-uncompress
   *@param fileName the name of the .zip file.
   *@param folderName the name of the folder were to save data from the .zip.
-  *@lastEditedVersion 1.46
+  *@lastEditedVersion 2.28
   */
   public static void unzip(String fileName, final String folderName){
     fileName = str.addALaFinSiNecessaire(fileName,".zip");
     final File destDir = new File(folderName);
     destDir.mkdirs(); //add folder if needed.
-    final byte[] buffer = new byte[1024];
     try {
       final ZipInputStream zis = new ZipInputStream(new FileInputStream(fileName));
       ZipEntry zipEntry = zis.getNextEntry();
       while (zipEntry != null) {
-          final File newFile = newFile(destDir, zipEntry);
-          if (zipEntry.isDirectory()) {
-              if (!newFile.isDirectory() && !newFile.mkdirs()) {
-                  throw new IOException("Failed to create directory " + newFile);
-              }
-          } else {
-              File parent = newFile.getParentFile();
-              if (!parent.isDirectory() && !parent.mkdirs()) {
-                  throw new IOException("Failed to create directory " + parent);
-              }
-
-              final FileOutputStream fos = new FileOutputStream(newFile);
-              int len;
-              while ((len = zis.read(buffer)) > 0) {
-                  fos.write(buffer, 0, len);
-              }
-              fos.close();
-          }
-          zipEntry = zis.getNextEntry();
+        createZipEntry(zipEntry, destDir, zis, ".");
+        zipEntry = zis.getNextEntry();
       }
       zis.closeEntry();
       zis.close();
@@ -298,13 +280,87 @@ public class fichier {
     }
   }
   /**
+  *{@summary Create a file for a zip entry.}
+  *If file need to have it's parent folder created, it will do that to.<br>
+  *cf https://www.baeldung.com/java-compress-and-uncompress
+  *@param zipEntry the zip entry to unzip
+  *@param folderName destDir the folder where to create it
+  *@param ZipInputStream the stream where to get content of the ZipEntry
+  *@param folderInURL the folder to unzip from the url to exclude some folder of full path
+  *@lastEditedVersion 2.28
+  */
+  private static void createZipEntry(ZipEntry zipEntry, File destDir, ZipInputStream zis, String folderInURL) throws IOException {
+    final byte[] buffer = new byte[1024];
+    final File newFile = newFile(destDir, zipEntry, folderInURL);
+    if (zipEntry.isDirectory()) {
+      if (!newFile.isDirectory() && !newFile.mkdirs()) {
+        throw new IOException("Failed to create directory " + newFile);
+      }
+    } else {
+      File parent = newFile.getParentFile();
+      if (!parent.isDirectory() && !parent.mkdirs()) {
+        throw new IOException("Failed to create directory " + parent);
+      }
+
+      final FileOutputStream fos = new FileOutputStream(newFile);
+      int len;
+      while ((len = zis.read(buffer)) > 0) {
+        fos.write(buffer, 0, len);
+      }
+      fos.close();
+    }
+  }
+  /**
+  *{@summary Download and unzip a .zip from the web.}<br>
+  *With folderInURL we can download only part of the zip.<br>
+  *Use this insted of download zip file and then unzip it will save performance.
+  *Because .zip file is never save on the disc, only in RAM.<br>
+  *@param url the zip url
+  *@param folderName destDir the folder where to create it
+  *@param folderInURL the folder to unzip from the url to exclude some folders &#38; files
+  *@lastEditedVersion 2.28
+  */
+  public static boolean downloadAndUnzip(final String url, final String folderName, final String folderInURL){
+    final File destDir = new File(str.sToDirectoryName(folderName));
+    try {
+      ZipInputStream zis = new ZipInputStream(new URL(url).openStream());
+      ZipEntry entry;
+      while((entry = zis.getNextEntry())!=null){
+        if(entry.getName().contains(folderInURL)){
+          createZipEntry(entry, destDir, zis, folderInURL);
+        }
+        zis.closeEntry();
+      }
+      zis.close();
+      return true;
+    }catch (Exception e) {
+      erreur.erreur("Fail to unzip "+url+" in "+folderName+" because of "+e);
+      return false;
+    }
+  }
+  /**
+  *{@summary Download and unzip a .zip from the web.}<br>
+  *Use this insted of download zip file and then unzip it will save performance.
+  *Because .zip file is never save on the disc, only in RAM.<br>
+  *@param url the zip url
+  *@param folderName destDir the folder where to create it
+  *@lastEditedVersion 2.28
+  */
+  public static boolean downloadAndUnzip(final String url, final String folderName){
+    return downloadAndUnzip(url, folderName, ".");
+  }
+  /**
   *{@summary a safe way to create a File from a zip file to avoid Zip Slip.}<br>
   *@param destinationDir File that we whant to create in the zipEntry folder.
   *@param zipEntry the ZipEntry.
   *@lastEditedVersion 1.46
   */
-  public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
-    File destFile = new File(destinationDir, zipEntry.getName());
+  public static File newFile(File destinationDir, ZipEntry zipEntry, String folderInURL) throws IOException {
+    String zipEntryName = zipEntry.getName();
+    if(zipEntryName.startsWith(folderInURL)){
+      zipEntryName=zipEntryName.substring(folderInURL.length()-1,zipEntryName.length());
+    }
+    File destFile = new File(destinationDir, zipEntryName);
     String destDirPath = destinationDir.getCanonicalPath();
     String destFilePath = destFile.getCanonicalPath();
     if (!destFilePath.startsWith(destDirPath + File.separator)) {

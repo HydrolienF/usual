@@ -609,6 +609,7 @@ public class Folder {
   *@lastEditedVersion 2.26
   */
   public boolean downloadAndUnzip(String urlPath, String folderName, boolean withInfo){
+    // TODO use fichier.downloadAndUnzip
     boolean downloadWork=download(urlPath, getFolderRoot()+"temp.zip", withInfo, getProgression());
     if(!downloadWork){return downloadWork;}
     getProgression().setDownloadingMessage("unziping");
