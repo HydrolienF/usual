@@ -578,7 +578,8 @@ public class Folder {
       progression.setButtonRetryVisible(false);
     }catch (NullPointerException e) {}
     try {
-      worked=fichier.download2(urlPath,fileName,withInfo,progression);
+      fichier.setProgression(progression);
+      worked=fichier.download2(urlPath,fileName,withInfo);
     }catch (Exception e) {
       String err = "Download fail: "+e;
       try {

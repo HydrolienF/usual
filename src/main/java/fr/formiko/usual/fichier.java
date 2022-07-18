@@ -32,11 +32,13 @@ import java.util.zip.ZipOutputStream;
 *@lastEditedVersion 1.46
 */
 public class fichier {
+  private static Progression progression;
 
   // CONSTRUCTORS ----------------------------------------------------------------
 
   // GET SET ----------------------------------------------------------------------
-
+  public static Progression getProgression() {return progression;}
+	public static void setProgression(Progression progression) {fichier.progression=progression;}
   // FUNCTIONS -----------------------------------------------------------------
   /**
   *make a liste of all .java file in the directory f.
@@ -124,7 +126,7 @@ public class fichier {
   *@param withInfo if true launch a thread to have info during download
   *@lastEditedVersion 2.7
   */
-  public static boolean download2(String urlPath, String fileName, boolean withInfo, Progression progression) throws Exception {
+  public static boolean download2(String urlPath, String fileName, boolean withInfo) throws Exception {
     // String reason=null;
     Exception ex=null;
     DownloadThread downloadThread=null;
@@ -328,6 +330,7 @@ public class fichier {
       ZipEntry entry;
       while((entry = zis.getNextEntry())!=null){
         if(entry.getName().startsWith(folderInURL)){
+          if(progression!=null){progression.setDownloadingMessage(entry.getName());}
           createZipEntry(entry, destDir, zis, folderInURL);
         }
         zis.closeEntry();
