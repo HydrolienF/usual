@@ -658,7 +658,9 @@ public class Folder {
   *@lastEditedVersion 2.27
   */
   public boolean haveLastVersion(){
-    return getLastDownloadedGameVersion().equals(getLastStableVersion());
+    String ldv = getLastDownloadedGameVersion();
+    if(ldv==null){return false;}
+    return ldv.equals(getLastStableVersion());
   }
 }
 /**
