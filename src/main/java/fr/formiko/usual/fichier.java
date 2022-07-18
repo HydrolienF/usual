@@ -327,7 +327,7 @@ public class fichier {
       ZipInputStream zis = new ZipInputStream(new URL(url).openStream());
       ZipEntry entry;
       while((entry = zis.getNextEntry())!=null){
-        if(entry.getName().contains(folderInURL)){
+        if(entry.getName().startsWith(folderInURL)){
           createZipEntry(entry, destDir, zis, folderInURL);
         }
         zis.closeEntry();
@@ -351,10 +351,10 @@ public class fichier {
     return downloadAndUnzip(url, folderName, ".");
   }
   /**
-  *{@summary a safe way to create a File from a zip file to avoid Zip Slip.}<br>
+  *{@summary A safe way to create a File from a zip file to avoid Zip Slip.}<br>
   *@param destinationDir File that we whant to create in the zipEntry folder.
   *@param zipEntry the ZipEntry.
-  *@lastEditedVersion 1.46
+  *@lastEditedVersion 2.28
   */
   public static File newFile(File destinationDir, ZipEntry zipEntry, String folderInURL) throws IOException {
     String zipEntryName = zipEntry.getName();
@@ -364,8 +364,8 @@ public class fichier {
     File destFile = new File(destinationDir, zipEntryName);
     String destDirPath = destinationDir.getCanonicalPath();
     String destFilePath = destFile.getCanonicalPath();
-    if (!destFilePath.startsWith(destDirPath + File.separator)) {
-      throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
+    if (!destFilePath.startsWith(destDirPath)) {
+      throw new IOException("Entry "+destFilePath+" is outside of the target dir"+destDirPath);
     }
     return destFile;
   }
