@@ -322,6 +322,7 @@ public class fichier {
   */
   public static boolean downloadAndUnzip(final String url, final String folderName, final String folderInURL){
     final File destDir = new File(str.sToDirectoryName(folderName));
+    destDir.mkdirs();
     try {
       ZipInputStream zis = new ZipInputStream(new URL(url).openStream());
       ZipEntry entry;
