@@ -330,7 +330,7 @@ public class fichier {
       ZipEntry entry;
       while((entry = zis.getNextEntry())!=null){
         if(entry.getName().startsWith(folderInURL)){
-          if(progression!=null){progression.setDownloadingMessage(entry.getName());}
+          if(getProgression()!=null){getProgression().setDownloadingMessage(entry.getName());}
           createZipEntry(entry, destDir, zis, folderInURL);
         }
         zis.closeEntry();
