@@ -1,6 +1,8 @@
 package fr.formiko.usual;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
 *{@summary Error class call to print error message.}<br>
@@ -9,7 +11,7 @@ import java.io.IOException;
 */
 public class erreur {
   public static boolean muet=false;
-  private static boolean logFileMode=true;
+  private static boolean logFileMode=false;
 
   public static boolean getMuet(){return muet;}
   public static void setMuet(boolean b){muet=b;}
@@ -95,15 +97,31 @@ public class erreur {
     }
     System.exit(1);
   }
-
+  /**
+  *{@summary Return a pre message as [INFO] with or without color.}<br>
+  *@lastEditedVersion 2.28
+  */
   private static String preMessage(String key, String messageColor){
     String preMessage=g.get(key).toUpperCase();
     if(!getLogFileMode()){
       try {
-        return "["+messageColor+preMessage+color.NEUTRAL+"] ";
+        preMessage="["+messageColor+preMessage+color.NEUTRAL+"] ";
       }catch (Exception e) {}
+    }else{
+      preMessage="["+preMessage+"] ";
     }
-    return "["+preMessage+"] ";
+    if(getLogFileMode()){
+      preMessage+=time()+" ";
+    }
+    return preMessage;
+  }
+  /**
+  *{@summary Return the current time, human readable.}<br>
+  *@lastEditedVersion 2.28
+  */
+  private static String time(){
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    return sdf.format(new Date(System.currentTimeMillis()));
   }
 
   public static void erreur(String message, String correction, boolean fatale, int classDepth){
