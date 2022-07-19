@@ -9,9 +9,12 @@ import java.io.IOException;
 */
 public class erreur {
   public static boolean muet=false;
+  private static boolean logFileMode=true;
 
   public static boolean getMuet(){return muet;}
   public static void setMuet(boolean b){muet=b;}
+  public static boolean getLogFileMode(){return logFileMode;}
+  public static void setLogFileMode(boolean b){logFileMode=b;}
   /**
   *{@summary A synchronized print that call print(Object o).}<br>
   *@lastEditedVersion 2.23
@@ -90,22 +93,26 @@ public class erreur {
         println("\t"+st+"\n");
       }
     }
-    System.exit(-1);
+    System.exit(1);
+  }
+
+  private static String preMessage(String key, String messageColor){
+    String preMessage=g.get(key).toUpperCase();
+    if(!getLogFileMode()){
+      try {
+        return "["+messageColor+preMessage+color.NEUTRAL+"] ";
+      }catch (Exception e) {}
+    }
+    return "["+preMessage+"] ";
   }
 
   public static void erreur(String message, String correction, boolean fatale, int classDepth){
     if(!Info.PRINT_ERROR){return;}
     String m = "";
     if (fatale){
-      m = g.get("erreur",3,"fatale")+" ";
+      m = g.get("erreur",3,"fatal")+" ";
     }
-    String preMessage = "";
-    try {
-      preMessage = "["+color.RED+g.get("erreur").toUpperCase()+color.NEUTRAL+"] ";
-    }catch (Exception e) {
-      preMessage=g.get("erreur").toUpperCase();
-    }
-    print(preMessage + "("+getCurentClassAndMethodName(classDepth)+") ");
+    print(preMessage("erreur", color.RED) + "("+getCurentClassAndMethodName(classDepth)+") ");
     println(sToSentences(message));
     if (!correction.equals("")){
       println(g.get("erreur",6,"Correction apportée")+" : " + correction);
@@ -131,13 +138,7 @@ public class erreur {
   }
   public static void alerte(String message, String correction){
     if(!Info.PRINT_WARNING){return;}
-    String preMessage = "";
-    try {
-      preMessage = "["+color.YELLOW+g.get("alerte").toUpperCase()+color.NEUTRAL+"] ";
-    }catch (Exception e) {
-      preMessage=g.get("alerte").toUpperCase();
-    }
-    print(preMessage+"("+getCurentClassAndMethodName()+") ");
+    print(preMessage("alerte",color.YELLOW)+"("+getCurentClassAndMethodName()+") ");
     if (!message.equals("")) {println(sToSentences(message));}
     if (correction != null && !correction.equals("")){
       println(g.get("erreur",6,"Correction apportée")+" : " + correction);
@@ -155,13 +156,7 @@ public class erreur {
   */
   public static void info(String message, int classDepth){
     if(!Info.PRINT_INFO){return;}
-    String preMessage = "";
-    try {
-      preMessage = "["+color.BLUE+g.get("info").toUpperCase()+color.NEUTRAL+"] ";
-    }catch (Exception e) {
-      preMessage=g.get("info").toUpperCase();
-    }
-    print(preMessage + "("+getCurentClassAndMethodName(classDepth)+") ");
+    print(preMessage("info",color.BLUE) + "("+getCurentClassAndMethodName(classDepth)+") ");
     println(sToSentences(message));
   }
   public static void info(String message){info(message,1);}
