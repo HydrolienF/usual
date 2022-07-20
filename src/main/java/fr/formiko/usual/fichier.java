@@ -294,7 +294,7 @@ public class fichier {
   private static void createZipEntry(ZipEntry zipEntry, File destDir, ZipInputStream zis, String folderInURL) throws IOException {
     final byte[] buffer = new byte[1024];
     final File newFile = newFile(destDir, zipEntry, folderInURL);
-    setMaxPerm(newFile);
+    if(!setMaxPerm(newFile)){erreur.erreur("zip entry perm failed to be set");}
     if (zipEntry.isDirectory()) {
       if (!newFile.isDirectory() && !newFile.mkdirs()) {
         throw new IOException("Failed to create directory " + newFile);
@@ -325,7 +325,7 @@ public class fichier {
   */
   public static boolean downloadAndUnzip(final String url, final String folderName, final String folderInURL){
     final File destDir = new File(str.sToDirectoryName(folderName));
-    setMaxPerm(destDir);
+    if(!setMaxPerm(destDir)){erreur.erreur("zip entry root perm failed to be set");}
     destDir.mkdirs();
     try {
       ZipInputStream zis = new ZipInputStream(new URL(url).openStream());
@@ -377,8 +377,8 @@ public class fichier {
 
   private static boolean setMaxPerm(File f){
     return f.setExecutable(true, false)
-        && f.setReadable(true, false)
-        && f.setWritable(true, false);
+        & f.setReadable(true, false)
+        & f.setWritable(true, false);
   }
   /**
   *{@summary a safe way to launch a web page.}<br>
