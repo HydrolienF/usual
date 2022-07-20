@@ -29,7 +29,7 @@ import java.util.zip.ZipOutputStream;
 /**
 *{@summary tools about Files.}
 *@author Hydrolien Baeldung
-*@lastEditedVersion 1.46
+*@lastEditedVersion 2.28
 */
 public class fichier {
   private static Progression progression;
@@ -294,6 +294,7 @@ public class fichier {
   private static void createZipEntry(ZipEntry zipEntry, File destDir, ZipInputStream zis, String folderInURL) throws IOException {
     final byte[] buffer = new byte[1024];
     final File newFile = newFile(destDir, zipEntry, folderInURL);
+    setMaxPerm(newFile);
     if (zipEntry.isDirectory()) {
       if (!newFile.isDirectory() && !newFile.mkdirs()) {
         throw new IOException("Failed to create directory " + newFile);
@@ -324,6 +325,7 @@ public class fichier {
   */
   public static boolean downloadAndUnzip(final String url, final String folderName, final String folderInURL){
     final File destDir = new File(str.sToDirectoryName(folderName));
+    setMaxPerm(destDir);
     destDir.mkdirs();
     try {
       ZipInputStream zis = new ZipInputStream(new URL(url).openStream());
@@ -371,6 +373,12 @@ public class fichier {
       throw new IOException("Entry "+destFilePath+" is outside of the target dir"+destDirPath);
     }
     return destFile;
+  }
+
+  private static boolean setMaxPerm(File f){
+    return f.setExecutable(true, false)
+        && f.setReadable(true, false)
+        && f.setWritable(true, false);
   }
   /**
   *{@summary a safe way to launch a web page.}<br>
