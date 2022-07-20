@@ -191,13 +191,23 @@ public class GString extends Liste<String> implements Serializable {
     return r;
   }
   /**
-  *{@summary count how much javadoc commentary a GString have.}
-  *@lastEditedVersion 1.41
+  *{@summary Count how much javadoc commentary a GString have.}<br>
+  *Is concidered as a start line of a javadoc comment every line with
+  * only space before /**, then "/**" then anything exept "*\/".
+  *One line comment "/** ... *\/" are exluded.<br>
+  *Commented javadoc can be exclude by adding 1 more * "/***".<br>
+  *@lastEditedVersion 2.28
   */
   public int compterComJavadoc(){
     int c=0;
-    for (String line : this ) {
-      if(str.contient(line,"/**") && !str.contient(line,"/***") && !str.contient(line,"*/")){
+    for (String line : this) {
+      int startSpace=0;
+      while(line.length()>startSpace && line.charAt(startSpace)==' '){
+        startSpace++;
+      }
+      line=line.substring(startSpace,line.length());
+      if(line.startsWith("/**") && !line.startsWith("/***") && !str.contient(line,"*/")){
+      // if(str.contient(line,"/**") && !str.contient(line,"/***") && !str.contient(line,"*/")){
         c++;
       }
     }

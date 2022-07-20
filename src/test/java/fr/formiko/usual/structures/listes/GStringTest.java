@@ -99,6 +99,24 @@ public class GStringTest extends TestCaseMuet{
     gs.add("/**");
     assertEquals(1,gs.compterComJavadoc());
   }
+  @Test
+  public void testCompterComJavadoc3(){
+    GString gs = new GString();
+    gs.add("  /**");
+    assertEquals(1,gs.compterComJavadoc());
+    gs = new GString();
+    gs.add("  /***");
+    assertEquals(0,gs.compterComJavadoc());
+    gs = new GString();
+    gs.add("   /** blabla");
+    assertEquals(1,gs.compterComJavadoc());
+  }
+  @Test
+  public void testCompterComJavadoc4(){
+    GString gs = new GString();
+    gs.add("  /** Description of the function */");
+    assertEquals(0,gs.compterComJavadoc());
+  }
 
   @Test
   public void testCompterFctEnDetail(){
