@@ -26,6 +26,7 @@ public class Usual {
           }
         }
         ecrireUnFichier.ecrireUnFichier(pomOut,"pom.xml");
+        fichier.deleteDirectory("javadocHeader.html");
         break;
       }
     }
