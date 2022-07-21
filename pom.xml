@@ -156,7 +156,7 @@
           <destDir>./javadoc/</destDir>
           <doctitle>Javadoc of Formiko</doctitle>
           <windowtitle>Javadoc of Formiko</windowtitle>
-          <stylesheetfile>docs/javadoc/styles.css</stylesheetfile>
+          <stylesheetfile>styleJavadoc.css</stylesheetfile>
           <header>
             €{HEADER}
           </header>
