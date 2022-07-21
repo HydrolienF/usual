@@ -21,8 +21,8 @@ jobs:
         java-version: 18
     - name: Javadoc update
       run: |
-        mvn compile exec:java -Dargs="javadocHeader"
-        mvn javadoc:javadoc
+        mvn -ntp compile exec:java -Dargs="javadocHeader"
+        mvn -ntp javadoc:javadoc
         rm styleJavadoc.css
         rm javadocHeader.html
         git restore pom.xml
