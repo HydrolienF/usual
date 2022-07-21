@@ -20,7 +20,9 @@ jobs:
       with:
         java-version: 17
     - name: Javadoc update
-      run: mvn javadoc:javadoc
+      run: |
+        mvn compile exec:java -Dargs="javadocHeader"
+        mvn javadoc:javadoc
     - name: Commit
       run: |
         if [[ `git status --untracked-files=no --porcelain docs/` != "\n" ]]; then
