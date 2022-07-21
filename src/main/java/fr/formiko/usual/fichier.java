@@ -186,7 +186,29 @@ public class fichier {
       }
     }
   }
-  // public static boolean download(String urlPath, String fileName){return download(urlPath, fileName, false);}
+  /**
+  *{@summary Download a file from the web.}<br>
+  *@param urlPath the url as a String
+  *@param fileName the name of the file were to save data from the web
+  *@param withInfo if true launch a thread to have info during download
+  *@lastEditedVersion 2.28
+  */
+  public static boolean download(String urlPath, String fileName, boolean withInfo){
+    try {
+      return download2(urlPath, fileName, withInfo);
+    }catch (Exception e) {
+      return false;
+    }
+  }
+  /**
+  *{@summary Download a file from the web.}<br>
+  *@param urlPath the url as a String
+  *@param fileName the name of the file were to save data from the web
+  *@lastEditedVersion 2.28
+  */
+  public static boolean download(String urlPath, String fileName){
+    return download(urlPath, fileName, false);
+  }
   /**
   *{@summary return the size of the downloaded file.}
   *@lastEditedVersion 2.7
