@@ -23,12 +23,14 @@ jobs:
       run: |
         mvn compile exec:java -Dargs="javadocHeader"
         mvn javadoc:javadoc
+        rm styleJavadoc.css
+        rm javadocHeader.html
+        git restore pom.xml
     - name: Commit
       run: |
         if [[ `git status --untracked-files=no --porcelain docs/` != "\n" ]]; then
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git restore pom.xml
           git config pull.rebase true
           git add docs/
           git commit -m "Auto javadoc update"

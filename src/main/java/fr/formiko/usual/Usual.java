@@ -13,6 +13,7 @@ public class Usual {
       }
       case "javadocHeader":{
         fichier.download("https://raw.githubusercontent.com/HydrolienF/HydrolienF.github.io/master/javadocHeader.html", "javadocHeader.html");
+        fichier.download("https://raw.githubusercontent.com/HydrolienF/HydrolienF.github.io/master/styleJavadoc.css", "styleJavadoc.css");
         GString pom = ReadFile.readFileGs("pom.xml");
         GString pomOut = new GString();
         for (String lineP : pom) {
@@ -26,7 +27,6 @@ public class Usual {
           }
         }
         ecrireUnFichier.ecrireUnFichier(pomOut,"pom.xml");
-        fichier.deleteDirectory("javadocHeader.html");
         break;
       }
     }
