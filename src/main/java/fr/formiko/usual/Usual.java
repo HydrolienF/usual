@@ -19,7 +19,7 @@ public class Usual {
           if(lineP.endsWith("€{HEADER}")){
             GString header = ReadFile.readFileGs("javadocHeader.html");
             for (String lineH : header) {
-              pomOut.add(lineH);
+              pomOut.add(lineH.replaceAll("<","&#60;").replaceAll(">","&#62;"));
             }
           }else{
             pomOut.add(lineP);
