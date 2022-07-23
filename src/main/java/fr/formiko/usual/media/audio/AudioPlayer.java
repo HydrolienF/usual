@@ -34,6 +34,7 @@ public class AudioPlayer implements AudioInterface {
   private boolean isMusique;
   private float volume;
   private MusicPlayer mp;
+  private boolean running;
   // CONSTRUCTORS --------------------------------------------------------------
   /**
   *{@summary main constructor}<br>
@@ -127,6 +128,7 @@ public class AudioPlayer implements AudioInterface {
   public void pause(){
     //TODO #367 pause audio
     chrono.pause();
+    running=false;
   }
   /**
   *{@summary Resume audio &#38; time.}<br>
@@ -135,6 +137,10 @@ public class AudioPlayer implements AudioInterface {
   public void resume(){
     //TODO #367 resume audio
     chrono.resume();
+    running=true;
+    synchronized (file) {
+      file.notify();
+    }
   }
   /**
   *{@summary Stop audio &#38; time.}<br>
@@ -231,6 +237,16 @@ public class AudioPlayer implements AudioInterface {
       for (int n = 0; n != -1 && ap.getChrono().getDuree() < ap.getMaxTime(); n = in.read(buffer, 0, buffer.length)) {
         line.write(buffer, 0, n);
         ap.getChrono().updateDuree();
+        while(!running){
+          erreur.info("Audio in pause mode");
+          synchronized (file) {
+            try {
+              file.wait();
+            }catch (InterruptedException e) {
+              erreur.alerte("Fail to wait in sound pause");
+            }
+          }
+        }
       }
     }
     /**
