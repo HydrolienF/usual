@@ -117,12 +117,7 @@ public class AudioPlayer implements AudioInterface {
   public void play() {
     chrono.start();
     do {
-      try {
-        doSounds();
-      }catch (Exception e) {
-        erreur.erreur("Unable to launch audio file "+file.getName());
-        loop=false;
-      }
+      doSounds();
     } while (loop && chrono.getDuree() < maxTime);
   }
   /**
@@ -130,7 +125,7 @@ public class AudioPlayer implements AudioInterface {
   *@lastEditedVersion 1.46
   */
   public void pause(){
-    //TODO pause audio
+    //TODO #367 pause audio
     chrono.pause();
   }
   /**
@@ -138,7 +133,7 @@ public class AudioPlayer implements AudioInterface {
   *@lastEditedVersion 1.46
   */
   public void resume(){
-    //TODO resume audio
+    //TODO #367 resume audio
     chrono.resume();
   }
   /**
@@ -204,7 +199,7 @@ public class AudioPlayer implements AudioInterface {
         }
       } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
         // throw new IllegalStateException(e);
-        erreur.erreur("Can't do sound");
+        erreur.erreur("Can't do sound "+e);
       }
     }
     private void updateVolume(){

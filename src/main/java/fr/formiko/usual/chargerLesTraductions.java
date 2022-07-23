@@ -1,12 +1,13 @@
 package fr.formiko.usual;
 
+import fr.formiko.usual.Info;
 import fr.formiko.usual.ReadFile;
 import fr.formiko.usual.structures.listes.GString;
 import fr.formiko.usual.tableau;
 import fr.formiko.usual.types.str;
-import fr.formiko.usual.Info;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -96,21 +97,18 @@ public class chargerLesTraductions {
   *@lastEditedVersion 1.5
   */
   public static boolean iniTLangue(){
-    try {
-      String t []=ReadFile.readFileArray(getRep()+"langue.csv");
-      if(t==null){throw new NullPointerException();}//on passe dans le catch.
-      if(t.length==0){throw new Exception();}//TODO find a better Exception
-      tLangue=new String[t.length];int k=0;
-      for (String s : t ) {
-        String s2 = s.split(",")[0];
-        tLangue[k]=s2;k++;
-      }
-      return true;
-    }catch (Exception e) {
+    String t []=ReadFile.readFileArray(getRep()+"langue.csv");
+    tLangue=new String[t.length];int k=0;
+    for (String s : t ) {
+      String s2 = s.split(",")[0];
+      tLangue[k]=s2;k++;
+    }
+    if(tLangue.length==0){
       erreur.erreur("Impossible de charger tLangue.");
       tLangue=new String [1]; tLangue[0]="en";
       return false;
     }
+    return true;
   }
   /**
   *{@summary Check that every language file exists and create is if it's need.}<br>
@@ -121,7 +119,7 @@ public class chargerLesTraductions {
       File f = new File(getRep()+str.sToFileName(s)+".txt");
       try {
         f.createNewFile();
-      }catch (Exception e) {
+      }catch (IOException e) {
         erreur.erreur("Impossible de créer un fichier de trad");
         return false;
       }
@@ -148,44 +146,24 @@ public class chargerLesTraductions {
 
   /**
   *{@summary get an array of translation for a given language.}<br>
-  *@param langue id if the language
-  *@lastEditedVersion 1.7
+  *@param langue id of the language
+  *@lastEditedVersion 2.28
   */
   public static String [] getTableauDesTrad(int langue){
-    //String tdefault [] = ReadFile.readFileArray(getRep()+"fr.txt");
-    String t [] = new String[0];
-    try{
-      debug.débogage("chargement de la langue "+getLanguage(langue));
-      t=ReadFile.readFileArray(getRep()+getLanguage(langue)+".txt");
-    }catch (Exception e) {
+    String t []=ReadFile.readFileArray(getRep()+getLanguage(langue)+".txt");;
+    if(t.length==0){
       erreur.erreur("Echec du chargement de la langue spécifiée","en choisi par défaut");
       t=ReadFile.readFileArray(getRep()+"en.txt");
     }
     return t;
   }
   /**
-  *{@summary Load translation for nation name.}<br>
-  *@lastEditedVersion 1.26
-  */
-  public static String []getTableauDesNationsName(){
-    String t [] = new String[0];
-    try{
-      t=ReadFile.readFileArray("docs/cc/"+"nationsName"+".csv");
-    }catch (Exception e) {
-      erreur.erreur("Echec du chargement de nationsName");
-    }
-    return t;
-  }
-  /**
   *{@summary get an array of command.}<br>
-  *@lastEditedVersion 1.7
+  *@lastEditedVersion 2.28
   */
   public static String [] getTableauDesCmd(){
-    String t [] = new String[0];
-    try{
-      debug.débogage("chargement des commandes");
-      t=ReadFile.readFileArray(getRep()+"cmd"+".txt");
-    }catch (Exception e) {
+    String t [] = ReadFile.readFileArray(getRep()+"cmd"+".txt");
+    if(t.length==0){
       erreur.erreur("Echec du chargement des commandes");
     }
     return t;
@@ -214,18 +192,6 @@ public class chargerLesTraductions {
   public static HashMap<String, String> chargerLesTraductionsSansCommande(int langue){
     iniMap();
     String t[] = getTableauDesTrad(langue);
-    for (String s : t) {//on ajoute toutes les lignes qu'on peu add.
-      addObjetMap(s);
-    }
-    return map;
-  }
-  /**
-  *{@summary Load translation for nation name.}<br>
-  *@lastEditedVersion 1.26
-  */
-  public static HashMap<String, String> chargerLesNationsName(){
-    iniMap();
-    String t[] = getTableauDesNationsName();
     for (String s : t) {//on ajoute toutes les lignes qu'on peu add.
       addObjetMap(s);
     }
@@ -280,19 +246,15 @@ public class chargerLesTraductions {
   *{@summary Count the %age translated.}<br>
   *It don't included command (that are not translate).
   *@param langue id if the language
-  *@lastEditedVersion 1.7
+  *@lastEditedVersion 2.28
   */
   public static int getPourcentageTraduit(int langue){
     int x = 0;
-    String [] t= new String [0];
-    try {
-      t=ReadFile.readFileArray(getRep()+getLanguage(langue)+".txt");
-    }catch (Exception e) {}
-      for (String s : t ) {
-        if(estLigneDeTrad(s)){
-          if(fini(s)){ x++;}
-        }
+    for (String line : ReadFile.readFileList(getRep()+getLanguage(langue)+".txt")) {
+      if(estLigneDeTrad(line)){
+        if(fini(line)){ x++;}
       }
+    }
     int xFr = chargerLesTraductionsSansCommande(1).size();
     if (xFr==0){return -1;}
     return (x*100)/xFr;
@@ -301,19 +263,15 @@ public class chargerLesTraductions {
   *{@summary Count the %age translated automatically.}<br>
   *It don't included command (that are not translate).
   *@param langue id if the language
-  *@lastEditedVersion 1.7
+  *@lastEditedVersion 2.28
   */
   public static int getPourcentageTraduitAutomatiquement(int langue){
     int x = 0;
-    String [] t= new String [0];
-    try {
-      t=ReadFile.readFileArray(getRep()+getLanguage(langue)+".txt");
-    }catch (Exception e) {}
-      for (String s : t ) {
-        if(s.length()>6 && s.substring(s.length()-6).equals("[auto]")){
-          x++;
-        }
+    for (String s : ReadFile.readFileList(getRep()+getLanguage(langue)+".txt")) {
+      if(s.length()>6 && s.substring(s.length()-6).equals("[auto]")){
+        x++;
       }
+    }
     int xFr = chargerLesTraductionsSansCommande(1).size();
     return (x*100)/xFr;
   }

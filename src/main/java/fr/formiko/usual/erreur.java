@@ -54,19 +54,13 @@ public class erreur {
     String className;
     do {
       k++;
-      className = stackTrace[k].getFileName();
-      try {
-        className = className.substring(0,className.length()-5);
-      }catch (Exception e) {}
+      className = toSimpleClassName(stackTrace[k].getFileName());
     } while (k<lenst && (className.equals("erreur") || className.equals("Info")));
     String cmName = "";
     for (int i=0;i<classDepth ; i++) {
       if(i>0){ cmName+=" - ";}
       try {
-        className = stackTrace[k+i].getFileName();
-        try {
-          className = className.substring(0,className.length()-5);
-        }catch (Exception e) {}
+        className = toSimpleClassName(stackTrace[k+i].getFileName());
         cmName+= className+"."+stackTrace[k+i].getMethodName()+" l"+stackTrace[k+i].getLineNumber();
       }catch (Exception e) {
         cmName+="null";
@@ -75,6 +69,16 @@ public class erreur {
     return cmName;
   }
   public static String getCurentClassAndMethodName(){return getCurentClassAndMethodName(1);}
+  /**
+  *{@summary Return a class name without .class.}<br>
+  *@lastEditedVersion 2.28
+  */
+  private static String toSimpleClassName(String className){
+    if(className.endsWith(".java")){
+      className = className.substring(0,className.length()-5);
+    }
+    return className;
+  }
   /**
   *{@summary Show curent stack trace without error file part &#38; stop game.}<br>
   *@lastEditedVersion 1.41
@@ -87,10 +91,7 @@ public class erreur {
     int k=0;
     for (StackTraceElement st : stackTrace) {
       k++;
-      String className = st.getFileName();
-      try {
-        className = className.substring(0,className.length()-5);
-      }catch (Exception e) {}
+      String className = toSimpleClassName(st.getFileName());
       if(!className.equals("erreur")){
         println("\t"+st+"\n");
       }

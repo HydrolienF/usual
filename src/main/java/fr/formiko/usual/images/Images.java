@@ -253,24 +253,6 @@ public class Images {
     if(f.getName().endsWith(".jpg")){return true;}
     return false;
   }
-  /*public BufferedImage rognerImage(BufferedImage i){
-    Img img = new Img(i);
-    img.rognerBordTransparent();
-    img.actualiserImage();
-    img.sauvegarder("tempFromImage");
-    try {
-      File f = new File(getREP()+"tempFromImage.png");
-      if(isImage(f)){
-        BufferedImage i2 = getImage("tempFromImage");
-        return i2;
-      }else{
-        erreur.erreur("impossible de charger l'image correctement","image.rognerImage");
-      }
-    }catch (Exception e) {
-      erreur.erreur("impossible de charger l'image correctement","image.rognerImage");
-    }
-    return i;
-  }*/
   /**
   *{@summary A fonction to getScaledInstance and return a BufferedImage.} <br>
   *If images is alredy resize to the exacte dimention it only return the same image.<br>

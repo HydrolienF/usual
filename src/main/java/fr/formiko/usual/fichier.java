@@ -52,11 +52,9 @@ public class fichier {
     if (f.isDirectory()){
       File allF [] = f.listFiles();
       if (allF != null && allF.length>0) {
-          for (File file : allF) {
-            try {
-              gs.add(listerLesFichiersDuRep(file));
-            }catch (Exception e) {}
-          }
+        for (File file : allF) {
+          gs.add(listerLesFichiersDuRep(file));
+        }
       }
     }else if(f.isFile()){
       gs.add(f.getPath());
@@ -69,18 +67,18 @@ public class fichier {
    *{@summary Delete a directory and all his content.}<br>
    *If it's a folder it will call deleteDirectory on all sub file/folder and then destroy itself.
    *If it's a file it will destroy itself.
-   *@lastEditedVersion 1.13
+   *@lastEditedVersion 2.28
    */
   public static boolean deleteDirectory(File directoryToBeDeleted) {
-    if(directoryToBeDeleted==null){return false;}
+    if(directoryToBeDeleted==null || !directoryToBeDeleted.exists()){return false;}
     File allF [] = directoryToBeDeleted.listFiles();
     if (allF != null) {
-        for (File file : allF) {
-            deleteDirectory(file);
-        }
+      for (File file : allF) {
+        deleteDirectory(file);
+      }
     }
     return directoryToBeDeleted.delete();
-  }public static boolean deleteDirectory(String s){try {return deleteDirectory(new File(str.sToDirectoryName(s)));}catch (Exception e){return false;}}
+  }public static boolean deleteDirectory(String s){return deleteDirectory(new File(str.sToDirectoryName(s)));}
 
   public static void affichageDesLecteurALaRacine (File f) {
     erreur.println("Affichage des lecteurs à la racine du PC : ");
@@ -111,11 +109,11 @@ public class fichier {
     copierUnFichier(fileSourceName, fileTargetName);
   }
   public static void copierUnFichier(String fileSourceName, String fileTargetName){
+    Path source = Paths.get(fileSourceName);
+    Path target = Paths.get(fileTargetName);
     try {
-      Path source = Paths.get(fileSourceName);
-      Path target = Paths.get(fileTargetName);
       Files.copy(source, target);
-    }catch (Exception e) {
+    }catch (IOException e) {
       erreur.erreur("fail to copy file from "+fileSourceName+" to "+fileTargetName);
     }
   }
@@ -177,7 +175,7 @@ public class fichier {
       if(fos!=null){
         try {
           fos.close();
-        }catch (Exception e) {
+        }catch (IOException e) {
           erreur.alerte("Can't close FileOutputStream");
         }
       }
@@ -421,10 +419,11 @@ public class fichier {
   *@lastEditedVersion 2.21
   */
   public static boolean openURI(URI uri){
+    if(uri==null){return false;}
     try {
       Desktop.getDesktop().browse(uri);
       return true;
-    }catch (Exception e) {
+    }catch (IOException e) {
       erreur.alerte("Fail to open URI "+uri);
       return false;
     }

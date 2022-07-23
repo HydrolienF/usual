@@ -250,7 +250,7 @@ public class Img implements Cloneable {
     debug.débogage("save de "+filename+" dans "+rep);
     try {
       save(rep+filename);
-    }catch (Exception e) {
+    }catch (IOException e) {
       erreur.erreur("Echec de la sauvegarde d'image pour : "+rep+filename);
     }
   }
@@ -376,26 +376,26 @@ public class Img implements Cloneable {
     Chrono.endCh("compterChaquePixel");
     return hm;
   }
-  /**
-  *{@summary Count how much of eatch pixel there is on the image and create a .html page to store the data.}<br>
-  */
-  public void compterChaquePixelToHtml(){
-    HashMap hm = compterChaquePixel();
-    g.setMap(chargerLesTraductions.chargerLesNationsName());
-    String sr = "";
-    Chrono.startCh();
-    //for (var item : hm.entrySet()) {
-    Object to[] = hm.keySet().toArray();
-    Pixel tp[] = new Pixel[to.length];
-    for (int i=0;i<to.length ;i++ ) {
-      tp[i] = (Pixel)to[i];
-    }
-    for (int i=0;i<tp.length ; i++) {
-      sr+="{label:'"+g.get(tp[i].toString())+"', y:"+hm.get(tp[i])+"},\n";
-    }
-    Chrono.endCh("compterChaquePixelToHtml");
-    erreur.println(getResultAsHtmlDiv(sr));
-  }
+  // /**
+  // *{@summary Count how much of eatch pixel there is on the image and create a .html page to store the data.}<br>
+  // */
+  // public void compterChaquePixelToHtml(){
+  //   HashMap hm = compterChaquePixel();
+  //   g.setMap(chargerLesTraductions.chargerLesNationsName());
+  //   String sr = "";
+  //   Chrono.startCh();
+  //   //for (var item : hm.entrySet()) {
+  //   Object to[] = hm.keySet().toArray();
+  //   Pixel tp[] = new Pixel[to.length];
+  //   for (int i=0;i<to.length ;i++ ) {
+  //     tp[i] = (Pixel)to[i];
+  //   }
+  //   for (int i=0;i<tp.length ; i++) {
+  //     sr+="{label:'"+g.get(tp[i].toString())+"', y:"+hm.get(tp[i])+"},\n";
+  //   }
+  //   Chrono.endCh("compterChaquePixelToHtml");
+  //   erreur.println(getResultAsHtmlDiv(sr));
+  // }
   /**
   *{@summary Replace pixel a by pixel b.}<br>
   *On Formiko it is used to create random color for ant and modify the image.
