@@ -180,17 +180,14 @@ ul.sub-nav-list {
     padding:0;
 }
 ul.sub-nav-list-small {
-    float:left;
-    margin:0 25px 0 0;
-    padding:0;
+    display: none;
 }
 ul.nav-list li {
   /* margin-top: -20px; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  /* margin-left: 2%;
-  margin-right: 2%; */
+  margin: 0px 4px 0px 4px;
   text-transform:uppercase;
     list-style:none;
     float:left;
@@ -212,9 +209,7 @@ ul.sub-nav-list li {
     padding-top:10px;
 }
 ul.sub-nav-list-small li {
-    list-style:none;
-    float:left;
-    padding-top:10px;
+    display: none;
 }
 .top-nav a:link, .top-nav a:active, .top-nav a:visited {
     /* color:#FFFFFF; */
@@ -813,9 +808,6 @@ table.striped > tbody > tr > th {
         padding: 6px;
     }
     ul.sub-nav-list li {
-        padding-top: 5px;
-    }
-    ul.sub-nav-list-small li {
         padding-top: 5px;
     }
     main {
