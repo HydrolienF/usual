@@ -117,6 +117,7 @@ public class AudioPlayer implements AudioInterface {
   */
   public void play() {
     chrono.start();
+    running=true;
     do {
       doSounds();
     } while (loop && chrono.getDuree() < maxTime);
