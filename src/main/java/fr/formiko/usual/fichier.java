@@ -418,7 +418,7 @@ public class fichier {
     Liste<File> parents = new Liste<File>();
     File fParent=f;
     while(fParent!=null){
-      parents.addTail(fParent);
+      parents.addHead(fParent);
       fParent=fParent.getParentFile();
     }
     boolean itWork=true;
