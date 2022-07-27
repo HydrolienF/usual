@@ -2,6 +2,7 @@ package fr.formiko.usual;
 
 import fr.formiko.usual.read;
 import fr.formiko.usual.structures.listes.GString;
+import fr.formiko.usual.structures.listes.Liste;
 import fr.formiko.usual.types.str;
 
 import java.awt.Desktop;
@@ -323,7 +324,7 @@ public class fichier {
       if (!parent.isDirectory() && !parent.mkdirs()) {
         throw new IOException("Failed to create directory " + parent);
       }
-      if(!setMaxPerm(parent)){erreur.erreur("zip entry parent/ perm failed to be set");}
+      // if(!setMaxPerm(parent)){erreur.erreur("zip entry parent/ perm failed to be set");}
 
       final FileOutputStream fos = new FileOutputStream(newFile);
       int len;
@@ -332,7 +333,7 @@ public class fichier {
       }
       fos.close();
     }
-    if(!setMaxPerm(newFile)){erreur.erreur("zip entry perm failed to be set");}
+    // if(!setMaxPerm(newFile)){erreur.erreur("zip entry perm failed to be set");}
   }
   /**
   *{@summary Download and unzip a .zip from the web.}<br>
@@ -345,9 +346,9 @@ public class fichier {
   *@lastEditedVersion 2.28
   */
   public static boolean downloadAndUnzip(final String url, final String folderName, final String folderInURL){
-    final File destDir = new File(str.sToDirectoryName(folderName));
+    File destDir = new File(str.sToDirectoryName(folderName));
     destDir.mkdirs();
-    if(!setMaxPerm(destDir)){erreur.erreur("zip entry root perm failed to be set");}
+    // if(!setMaxPerm(destDir)){erreur.erreur("zip entry root perm failed to be set");}
     try {
       ZipInputStream zis = new ZipInputStream(new URL(url).openStream());
       ZipEntry entry;
@@ -396,13 +397,38 @@ public class fichier {
     return destFile;
   }
 
-  private static boolean setMaxPerm(File f){
-    return f.setExecutable(true, false)
+  /**
+  *{@summary Set all the permissions for a file.}<br>
+  *@param f file to set permissions
+  *@lastEditedVersion 2.28
+  */
+  public static boolean setMaxPerm(File f){
+    boolean itWork=f.setExecutable(true, false)
         & f.setReadable(true, false)
         & f.setWritable(true, false);
+    erreur.info("set max perm to "+f+" work:"+itWork);
+    return itWork;
   }
   /**
-  *{@summary a safe way to launch a web page.}<br>
+  *{@summary Set recursively all the permissions for a file.}<br>
+  *@param f file to set permissions recursively
+  *@lastEditedVersion 2.28
+  */
+  public static boolean setMaxPermRecursively(File f){
+    Liste<File> parents = new Liste<File>();
+    File fParent=f;
+    while(fParent!=null){
+      parents.addTail(fParent);
+      fParent=fParent.getParentFile();
+    }
+    boolean itWork=true;
+    for (File fi : parents) {
+       itWork=itWork & setMaxPerm(fi);
+    }
+    return itWork;
+  }
+  /**
+  *{@summary A safe way to launch a web page.}<br>
   *@param url the URL to open
   *@lastEditedVersion 2.21
   */
