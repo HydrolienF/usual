@@ -323,6 +323,7 @@ public class fichier {
       if (!parent.isDirectory() && !parent.mkdirs()) {
         throw new IOException("Failed to create directory " + parent);
       }
+      if(!setMaxPerm(parent)){erreur.erreur("zip entry parent/ perm failed to be set");}
 
       final FileOutputStream fos = new FileOutputStream(newFile);
       int len;
@@ -345,8 +346,8 @@ public class fichier {
   */
   public static boolean downloadAndUnzip(final String url, final String folderName, final String folderInURL){
     final File destDir = new File(str.sToDirectoryName(folderName));
-    if(!setMaxPerm(destDir)){erreur.erreur("zip entry root perm failed to be set");}
     destDir.mkdirs();
+    if(!setMaxPerm(destDir)){erreur.erreur("zip entry root perm failed to be set");}
     try {
       ZipInputStream zis = new ZipInputStream(new URL(url).openStream());
       ZipEntry entry;
