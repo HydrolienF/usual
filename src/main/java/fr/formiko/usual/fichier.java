@@ -314,7 +314,6 @@ public class fichier {
   private static void createZipEntry(ZipEntry zipEntry, File destDir, ZipInputStream zis, String folderInURL) throws IOException {
     final byte[] buffer = new byte[1024];
     final File newFile = newFile(destDir, zipEntry, folderInURL);
-    if(!setMaxPerm(newFile)){erreur.erreur("zip entry perm failed to be set");}
     if (zipEntry.isDirectory()) {
       if (!newFile.isDirectory() && !newFile.mkdirs()) {
         throw new IOException("Failed to create directory " + newFile);
@@ -332,6 +331,7 @@ public class fichier {
       }
       fos.close();
     }
+    if(!setMaxPerm(newFile)){erreur.erreur("zip entry perm failed to be set");}
   }
   /**
   *{@summary Download and unzip a .zip from the web.}<br>
