@@ -151,9 +151,9 @@ public class Folder {
     if(os.isWindows()){
       setFolderMain(System.getenv("APPDATA")+"/.formiko/");
     }else if(os.isLinux()){
-      setFolderMain("/"+System.getProperty("user.home")+"/.formiko/");
+      setFolderMain(System.getProperty("user.home")+"/.formiko/");
     }else if(os.isMac()){
-      setFolderMain("/"+System.getProperty("user.home")+"/.formiko/");
+      setFolderMain(System.getProperty("user.home")+"/.formiko/");
     }else{
       setFolderMain("");
     }
