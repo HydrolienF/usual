@@ -19,7 +19,7 @@ public class MusicPlayer implements AudioInterface {
   private boolean musicPaused;
   private GString nextMusics;
   private GString availableMusics;
-  private String curentMusic;
+  private String currentMusic;
   private Folder folder;
   private boolean bMusic;
   private int volMusic;
@@ -50,19 +50,19 @@ public class MusicPlayer implements AudioInterface {
     // erreur.info("Play",4);
     if(!bMusic){return;}
     if(audioPlayer!=null){audioPlayer.stop();}
-    curentMusic = getNextMusic();
-    if(curentMusic==null || curentMusic.equals("")){
+    currentMusic = getNextMusic();
+    if(currentMusic==null || currentMusic.equals("")){
       erreur.alerte("Can't play music because music is null or empty");
       return;
     }
-    audioPlayer = new AudioPlayer(true, curentMusic);
+    audioPlayer = new AudioPlayer(true, currentMusic);
     audioPlayer.setMp(this);
     audioPlayer.setVolume(volMusic);
     audioPlayer.play();
     musicPaused=false;
   }
   /**
-  *{@summary Pause curent music.}<br>
+  *{@summary Pause current music.}<br>
   *@see MusicPlayer#resume()
   *@lastEditedVersion 1.52
   */
@@ -74,7 +74,7 @@ public class MusicPlayer implements AudioInterface {
     }
   }
   /**
-  *{@summary Resume curent music.}<br>
+  *{@summary Resume current music.}<br>
   *@see MusicPlayer#pause()
   *@lastEditedVersion 1.52
   */
@@ -86,7 +86,7 @@ public class MusicPlayer implements AudioInterface {
     }
   }
   /**
-  *{@summary Stop curent music.}<br>
+  *{@summary Stop current music.}<br>
   *We need play() to start music again.<br>
   *@lastEditedVersion 1.52
   */
@@ -105,6 +105,14 @@ public class MusicPlayer implements AudioInterface {
   @Override
   public synchronized boolean isRunning(){
     return audioPlayer.isRunning();
+  }
+  /**
+  *{@summary Return the current music.}<br>
+  *@lastEditedVersion 2.28
+  */
+  public String getCurrentMusic(){
+    if(!isRunning()){return null;}
+    return currentMusic;
   }
 
   /**
@@ -169,17 +177,17 @@ public class MusicPlayer implements AudioInterface {
   */
   private String getNextMusic(){
     if(nextMusics.isEmpty()){
-      curentMusic = getRandomMusic();
+      currentMusic = getRandomMusic();
     }else{
-      curentMusic = nextMusics.getItem(0);
+      currentMusic = nextMusics.getItem(0);
       nextMusics.removeItem(0);
     }
-    return getPath()+curentMusic;
+    return getPath()+currentMusic;
   }
   /**
   *{@summary return a random music.}<br>
   *If the list of availableMusics is null, it create it.<br>
-  *It should avoid to play same music than curent one by gettin a new random 1 (10 try).
+  *It should avoid to play same music than current one by gettin a new random 1 (10 try).
   *@lastEditedVersion 1.52
   */
   private String getRandomMusic(){
@@ -194,7 +202,7 @@ public class MusicPlayer implements AudioInterface {
       i = allea.getAllea(len);
       music = availableMusics.getItem(allea.getAllea(len));
       k++;
-    } while (curentMusic.equals(music) && len>1 && k<10);
+    } while (currentMusic.equals(music) && len>1 && k<10);
     erreur.info("music "+i+" :"+music);
     return music;
   }
