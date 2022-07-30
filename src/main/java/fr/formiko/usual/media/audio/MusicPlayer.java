@@ -123,6 +123,7 @@ public class MusicPlayer implements AudioInterface {
   */
   @Override
   public synchronized boolean isRunning(){
+    if(audioPlayer==null){return false;}
     return audioPlayer.isRunning();
   }
   /**
