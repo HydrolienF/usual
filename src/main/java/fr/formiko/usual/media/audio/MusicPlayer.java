@@ -45,6 +45,7 @@ public class MusicPlayer implements AudioInterface {
   *{@summary Play next music.}<br>
   *@lastEditedVersion 2.25
   */
+  @Override
   public synchronized void play(){
     // erreur.info("Play",4);
     if(!bMusic){return;}
@@ -65,6 +66,7 @@ public class MusicPlayer implements AudioInterface {
   *@see MusicPlayer#resume()
   *@lastEditedVersion 1.52
   */
+  @Override
   public synchronized void pause(){
     if(audioPlayer!=null && !musicPaused){
       audioPlayer.pause();
@@ -76,6 +78,7 @@ public class MusicPlayer implements AudioInterface {
   *@see MusicPlayer#pause()
   *@lastEditedVersion 1.52
   */
+  @Override
   public synchronized void resume(){
     if(audioPlayer!=null && musicPaused){
       audioPlayer.resume();
@@ -87,6 +90,7 @@ public class MusicPlayer implements AudioInterface {
   *We need play() to start music again.<br>
   *@lastEditedVersion 1.52
   */
+  @Override
   public synchronized void stop(){
     if(audioPlayer!=null){
       audioPlayer.stop();
@@ -94,6 +98,15 @@ public class MusicPlayer implements AudioInterface {
       musicPaused=true;
     }
   }
+  /**
+  *{@summary Return true if audio is running.}<br>
+  *@lastEditedVersion 2.28
+  */
+  @Override
+  public synchronized boolean isRunning(){
+    return audioPlayer.isRunning();
+  }
+
   /**
   *{@summary Add next music to list of music to play.}<br>
   *@param music name of the music.
@@ -114,6 +127,15 @@ public class MusicPlayer implements AudioInterface {
   public void next(){
     play();
   }
+  /**
+  *{@summary Play last music.}<br>
+  *@lastEditedVersion 2.28
+  */
+  public void last(){
+    // TODO we need to remeber all last music
+    // TODO play last music.
+  }
+
   /**
   *{@summary Initialize availables musics list.}<br>
   *@lastEditedVersion 1.52

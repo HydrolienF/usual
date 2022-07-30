@@ -27,4 +27,9 @@ public interface AudioInterface {
   *@lastEditedVersion 1.52
   */
   void stop();
+  /***
+  *{@summary Return true if audio is running.}<br>
+  *@lastEditedVersion 2.28
+  */
+  boolean isRunning();
 }
