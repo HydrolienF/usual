@@ -691,27 +691,25 @@ class ThDownloadMusicData extends Thread {
   private Folder folder;
   private MusicPlayer mp;
   private Progression progression;
+  /**
+  *{@summary Main constructor.}<br>
+  *@lastEditedVersion 1.53
+  */
   public ThDownloadMusicData(Folder f, MusicPlayer mp, Progression progression){
     this.mp=mp;
     this.folder=f;
     this.progression=progression;
   }
+  /**
+  *{@summary Download music data from github release.}<br>
+  *@lastEditedVersion 2.29
+  */
   @Override
   public void run(){
     erreur.info("downloadMusicData");
     Chrono.startCh();
-    // fichier.downloadAndUnzip("https://github.com/HydrolienF/Formiko/releases/download/"+folder.getWantedMusicVersion()+"/music.zip", folder.getFolderStable());
-    // Chrono.endCh("downloadMusicData");
-    Folder.download("https://github.com/HydrolienF/Formiko/releases/download/"+folder.getWantedMusicVersion()+"/music.zip",folder.getFolderRoot()+"music.zip", progression);
+    fichier.downloadAndUnzip("https://github.com/HydrolienF/Formiko/releases/download/"+folder.getWantedMusicVersion()+"/music.zip", folder.getFolderStable()+folder.getFolderMusiques(), "musics/");
     Chrono.endCh("downloadMusicData");
-    erreur.info("downloadMusicData done");
-    Chrono.startCh();
-    fichier.unzip(folder.getFolderRoot()+"music.zip",folder.getFolderStable());
-    Chrono.endCh("unzipMusicData");
-    System.gc();
-    if(!fichier.deleteDirectory(folder.getFolderRoot()+"music.zip")){
-      erreur.alerte("unable to delete "+folder.getFolderRoot()+"music.zip");
-    }
     mp.iniAvailableMusics();
   }
 }
