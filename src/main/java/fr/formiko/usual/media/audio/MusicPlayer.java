@@ -33,6 +33,7 @@ public class MusicPlayer implements AudioInterface {
   */
   public MusicPlayer(Folder folder, boolean bMusic, int volMusic){
     nextMusics = new GString();
+    lastMusics = new GString();
     this.folder=folder;
     this.bMusic=bMusic;
     this.volMusic=volMusic;
