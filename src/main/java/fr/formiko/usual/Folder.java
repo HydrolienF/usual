@@ -564,6 +564,18 @@ public class Folder {
     th.start();
   }
   /**
+  *{@summary Return true if we need to download the musics files.}<br>
+  *We need to download the music files if 1 or more is missing.<br>
+  *@lastEditedVersion 2.29
+  */
+  public boolean needToDownloadMusic(){
+    int cpt = fichier.countEntryOfZipFile("https://github.com/HydrolienF/Formiko/releases/download/"+getWantedMusicVersion()+"/music.zip");
+    File f = new File(getFolderStable()+getFolderMusiques());
+    if(!f.exists()){return true;}
+    erreur.info("needToDownloadMusic: "+cpt+" > "+f.list().length+" ?");//@a
+    return cpt > f.list().length;
+  }
+  /**
   *{@summary Download a file from the web.}<br>
   * It also update progression.
   *@param urlPath the url as a String
@@ -688,13 +700,14 @@ class ThDownloadMusicData extends Thread {
   public void run(){
     erreur.info("downloadMusicData");
     Chrono.startCh();
-    Folder.download("https://github.com/HydrolienF/Formiko/releases/download/"+folder.getWantedMusicVersion()+"/music.zip",folder.getFolderRoot()+"music.zip", progression);
+    fichier.downloadAndUnzip("https://github.com/HydrolienF/Formiko/releases/download/"+folder.getWantedMusicVersion()+"/music.zip",folder.getFolderStable());
     Chrono.endCh("downloadMusicData");
-    erreur.info("downloadMusicData done");
-    Chrono.startCh();
-    fichier.unzip(folder.getFolderRoot()+"music.zip",folder.getFolderStable());
-    Chrono.endCh("unzipMusicData");
-    System.gc();
+    // Folder.download("https://github.com/HydrolienF/Formiko/releases/download/"+folder.getWantedMusicVersion()+"/music.zip",folder.getFolderRoot()+"music.zip", progression);
+    // erreur.info("downloadMusicData done");
+    // Chrono.startCh();
+    // fichier.unzip(folder.getFolderRoot()+"music.zip",folder.getFolderStable());
+    // Chrono.endCh("unzipMusicData");
+    // System.gc();
     if(!fichier.deleteDirectory(folder.getFolderRoot()+"music.zip")){
       erreur.alerte("unable to delete "+folder.getFolderRoot()+"music.zip");
     }
