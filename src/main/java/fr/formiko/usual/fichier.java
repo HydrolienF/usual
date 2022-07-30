@@ -378,6 +378,27 @@ public class fichier {
     return downloadAndUnzip(url, folderName, ".");
   }
   /**
+  *{@summary Count entry of a zip file.}<br>
+  *@param url the zip url
+  *@lastEditedVersion 2.29
+  */
+  public static int countEntryOfZipFile(final String url){
+    try {
+      ZipInputStream zis = new ZipInputStream(new URL(url).openStream());
+      int cpt=0;
+      ZipEntry entry;
+      while((entry = zis.getNextEntry())!=null){
+        if(!entry.isDirectory()){
+          cpt++;
+        }
+      }
+      return cpt;
+    }catch (Exception e) {
+      erreur.alerte("Fail to count entry of zip file because of "+e);
+      return -1;
+    }
+  }
+  /**
   *{@summary A safe way to create a File from a zip file to avoid Zip Slip.}<br>
   *@param destinationDir File that we whant to create in the zipEntry folder.
   *@param zipEntry the ZipEntry.
