@@ -115,6 +115,7 @@ public class AudioPlayer implements AudioInterface {
   *{@summary play audio &#38; launch time}<br>
   *@lastEditedVersion 1.46
   */
+  @Override
   public void play() {
     chrono.start();
     running=true;
@@ -126,8 +127,8 @@ public class AudioPlayer implements AudioInterface {
   *{@summary pause audio &#38; time}<br>
   *@lastEditedVersion 1.46
   */
+  @Override
   public void pause(){
-    //TODO #367 pause audio
     chrono.pause();
     running=false;
   }
@@ -135,8 +136,8 @@ public class AudioPlayer implements AudioInterface {
   *{@summary Resume audio &#38; time.}<br>
   *@lastEditedVersion 1.46
   */
+  @Override
   public void resume(){
-    //TODO #367 resume audio
     chrono.resume();
     running=true;
     synchronized (file) {
@@ -147,11 +148,20 @@ public class AudioPlayer implements AudioInterface {
   *{@summary Stop audio &#38; time.}<br>
   *@lastEditedVersion 1.46
   */
+  @Override
   public void stop(){
     maxTime=0;
     //TODO stop audio
     at.interrupt();
     chrono.stop();
+  }
+  /**
+  *{@summary Return true if audio is running.}<br>
+  *@lastEditedVersion 2.28
+  */
+  @Override
+  public boolean isRunning(){
+    return running;
   }
   /**
   *{@summary Modify volume.}<br>
