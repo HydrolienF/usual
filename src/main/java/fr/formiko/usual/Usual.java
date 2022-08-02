@@ -1,11 +1,22 @@
 package fr.formiko.usual;
 
 import fr.formiko.usual.structures.listes.GString;
+import fr.formiko.usual.images.Images;
+import fr.formiko.usual.types.str;
 
+/**
+*{@summary Main class with all function that can be launch by args.}<br>
+*@author Hydrolien
+*@lastEditedVersion 2.29
+*/
 public class Usual {
+  /**
+  *{@summary Main function with all function that can be launch by args.}<br>
+  *@lastEditedVersion 2.29
+  */
   public static void main(String[] args) {
     color.iniColor();
-    args = splitArgs(args);
+    args = str.splitArgs(args);
     switch(args[0]){
       case "tws", "translateWebSite":{
         Translation.translateWebSite(args[1]);
@@ -29,15 +40,18 @@ public class Usual {
         ecrireUnFichier.ecrireUnFichier(pomOut,"pom.xml");
         break;
       }
-    }
-  }
-
-  public static String [] splitArgs(String[] args){
-    if(args.length!=0){
-      if(args.length==1 && args[0] != null){
-        args = args[0].split(" ");
+      case "resizeAllUnder":{
+        String fileName = args[1];
+        int pixelMax = Integer.parseInt(args[2]);
+        Images.resizeAll(fileName, pixelMax, false);
+        break;
+      }
+      case "resizeAll":{
+        String fileName = args[1];
+        int pixelMax = Integer.parseInt(args[2]);
+        Images.resizeAll(fileName, pixelMax, true);
+        break;
       }
     }
-    return args;
   }
 }

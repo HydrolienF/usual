@@ -46,12 +46,12 @@ public class Images {
   public static Folder getFolder(){return Folder.getFolder();}
   // FUNCTIONS -----------------------------------------------------------------
   /**
-   *{@summary Try to read an Image file}<br>
-   *Image are File who end with ".png" or ".jpg".<br>
-   *@param f File that sould contain the Image.
-   *@return Image on the file or null if something went wrong.
-   *@lastEditedVersion 1.3
-   */
+  *{@summary Try to read an Image file}<br>
+  *Image are File who end with ".png" or ".jpg".<br>
+  *@param f File that sould contain the Image.
+  *@return Image on the file or null if something went wrong.
+  *@lastEditedVersion 1.3
+  */
   public static BufferedImage readImage(File f){
     if(!isImage(f)){erreur.erreur("L'Image sencé être dans le fichier suivant n'as pas été reconnue en temps qu'image. "+f.toString());return null;}
     try {
@@ -62,6 +62,23 @@ public class Images {
       return null;
     }
   }public static BufferedImage readImage(String s){return readImage(new File(s));}
+
+  /**
+  *{@summary Try to save an Image file.}<br>
+  *Image are File who end with ".png" or ".jpg".<br>
+  *@param file File where to save the image
+  *@param bi BufferedImage to save
+  *@return True if it work
+  *@lastEditedVersion 2.29
+  */
+  public static boolean saveImage(File file, BufferedImage bi){
+    try {
+      ImageIO.write(bi, "png", file);
+      return true;
+    }catch (IOException e) {
+      return false;
+    }
+  }
   /**
    *{@summary get an Image in 1 of the 3 usuals images directories.}<br>
    *It will 1a search on getREPTEXTUREPACK(), then in getREP() and finaly in REP_TEMPORARY.
@@ -282,7 +299,7 @@ public class Images {
   *This function resize the biger side to newHW &#38; the other size to keep the proportions.<br>
   *@param in The Image to resize.
   *@param newHW The new height or width (biger side).
-  *@param 1.31
+  *@lastEditedVersion 1.31
   */
   public static BufferedImage resize(BufferedImage in, int newHW){
     if(in==null){return null;}
@@ -297,6 +314,49 @@ public class Images {
     }
     return resize(in,newW,newH);
   }
+  /**
+  *{@summary A fonction to resize all images in a folder.}<br>
+  *This function use resize(bufferedImage, newHW).<br>
+  *This function resize the biger side to newHW &#38; the other size to keep the proportions.<br>
+  *@param file file or folder to resize
+  *@param newHW value to resize to
+  *@param resizeSmallerImages if true also resize bigger smaller image than newHW
+  *@lastEditedVersion 2.29
+  */
+  public static boolean resizeAll(File file, int newHW, boolean resizeSmallerImages){
+    if(!file.exists()){return false;}
+    if(file.isDirectory()){
+      File allF [] = file.listFiles();
+      boolean b=false;
+      for (File f : allF) {
+        b = (b | resizeAll(f, newHW, resizeSmallerImages));
+      }
+      return b;
+    }else{
+      if(isImage(file)){
+        BufferedImage in=readImage(file);
+        if(!resizeSmallerImages && Math.max(in.getWidth(), in.getHeight())<newHW){return true;}
+        erreur.info("resize "+in);
+        BufferedImage out=resize(in, newHW);
+        return saveImage(file, out);
+      }else{
+        return false;
+      }
+    }
+  }
+  /**
+  *{@summary A fonction to resize all images in a folder.}<br>
+  *This function use resize(bufferedImage, newHW).<br>
+  *This function resize the biger side to newHW &#38; the other size to keep the proportions.<br>
+  *@param folderName the folder to resize
+  *@param newHW value to resize to
+  *@param resizeSmallerImages if true also resize bigger smaller image than newHW
+  *@lastEditedVersion 2.29
+  */
+  public static boolean resizeAll(String folderName, int newHW, boolean resizeSmallerImages){
+    return resizeAll(new File(folderName), newHW, resizeSmallerImages);
+  }
+
   /**
   *{@summary A fonction to rotate &#38; center a BufferedImage.}<br>
   *@param bi The Image to rotate &#38; center

@@ -14,19 +14,28 @@ import java.util.stream.IntStream;
 import java.nio.CharBuffer;
 
 /**
-*{@summary Types conversions from String}<br>
+*{@summary Types conversions from String.}<br>
 *@author Hydrolien
 *@lastEditedVersion 2.7
 */
 public class str {
   // FUNCTIONS -----------------------------------------------------------------
   /**
-  *{@summary Split a string in an array.}<br>
-  *@param toSplit String to split
-  *@param splitChar Array of char used to split
-  *@param strLimiterChar char that define the start or the end of a unsecable string
-  *@lastEditedVersion 2.16
+  *{@summary Split args in an Array.}<br>
+  *This funtion is used to be able to use maven -Dargs="arg1 arg2 arg3"
+  *@param args String Array to split iff needed.
+  *@lastEditedVersion 2.29
   */
+  public static String [] splitArgs(String[] args){
+    if(args.length!=0){
+      if(args.length==1 && args[0] != null){
+        args = args[0].split(" ");
+      }
+    }
+    return args;
+  }
+
+
   public static String[] split(String toSplit, char [] splitChar, char strLimiterChar){
     try {
     int len=0;
