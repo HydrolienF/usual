@@ -16,6 +16,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class ImagesTest extends TestCaseMuet {
 
@@ -341,6 +342,8 @@ public class ImagesTest extends TestCaseMuet {
     assertTrue(!Images.isImage(f));
     f = new File("gerh.pnj.ĉu ne");
     assertTrue(!Images.isImage(f));
+    f=null;
+    assertTrue(!Images.isImage(f));
   }
 
   @Test
@@ -455,6 +458,122 @@ public class ImagesTest extends TestCaseMuet {
     Images.replaceRectColor(bi,colEmpty,1,2,1,1);
     int t5[]={0,1,1,0};
     assertArrayEquals(t5, Images.countTransparentBorders(bi));
+  }
+
+  @Test
+  public void testSaveImage(){
+    BufferedImage bi = new BufferedImage(8,8,BufferedImage.TYPE_INT_ARGB);
+    File f = new File("imageTest"+getId()+".png");
+    assertFalse(f.exists());
+    assertTrue(Images.saveImage(f,bi));
+    assertTrue(f.exists());
+    assertTrue(f.exists());
+    assertTrue(f.isFile());
+    assertTrue(f.delete());
+  }
+  @Test
+  public void testSaveImage2(){
+    BufferedImage bi = new BufferedImage(8,8,BufferedImage.TYPE_INT_ARGB);
+    File f = new File("imageTest"+getId()+".png");
+    assertFalse(f.exists());
+    try {
+      f.createNewFile();
+    }catch (IOException e) {
+      assertTrue(false);
+    }
+    assertTrue(Images.saveImage(f,bi));
+    assertTrue(f.exists());
+    assertTrue(f.exists());
+    assertTrue(f.isFile());
+    assertTrue(f.delete());
+  }
+  @Test
+  public void testResizeAll(){
+    String folderName="tempImagesFolder/";
+    File folder = new File(folderName);
+    folder.mkdir();
+    File i1 = new File(folderName+"i1.png");
+    File i2 = new File(folderName+"i2.png");
+    File subFolder = new File(folderName+"s/");
+    subFolder.mkdir();
+    File i3 = new File(folderName+"s/"+"i3.png");
+    File f1 = new File(folderName+"toto.txt");
+    try {
+      f1.createNewFile();
+    }catch (IOException e) {
+      assertTrue(false);
+    }
+    assertTrue(Images.saveImage(i1,new BufferedImage(10,8,BufferedImage.TYPE_INT_ARGB)));
+    assertTrue(Images.saveImage(i2,new BufferedImage(5,5,BufferedImage.TYPE_INT_ARGB)));
+    assertTrue(Images.saveImage(i3,new BufferedImage(2,3,BufferedImage.TYPE_INT_RGB)));
+
+    assertTrue(Images.resizeAll(folder, 5, false));
+
+    BufferedImage i = Images.readImage(i1);
+    assertEquals(5,i.getWidth());
+    assertEquals(4,i.getHeight());
+    i = Images.readImage(i2);
+    assertEquals(5,i.getWidth());
+    assertEquals(5,i.getHeight());
+    i = Images.readImage(i3);
+    assertEquals(2,i.getWidth());
+    assertEquals(3,i.getHeight());
+
+    assertTrue(fichier.deleteDirectory(folder));
+  }
+
+  @Test
+  public void testResizeAll2(){
+    String folderName="tempImagesFolder"+getId()+"/";
+    File folder = new File(folderName);
+    folder.mkdir();
+    File i1 = new File(folderName+"i1.png");
+    File i2 = new File(folderName+"i2.png");
+    File subFolder = new File(folderName+"s/");
+    subFolder.mkdir();
+    File i3 = new File(folderName+"s/"+"i3.png");
+    File f1 = new File(folderName+"toto.txt");
+    try {
+      f1.createNewFile();
+    }catch (IOException e) {
+      assertTrue(false);
+    }
+    assertTrue(Images.saveImage(i1,new BufferedImage(10,8,BufferedImage.TYPE_INT_ARGB)));
+    assertTrue(Images.saveImage(i2,new BufferedImage(5,5,BufferedImage.TYPE_INT_ARGB)));
+    assertTrue(Images.saveImage(i3,new BufferedImage(2,3,BufferedImage.TYPE_INT_RGB)));
+
+    assertTrue(Images.resizeAll(folderName, 5, true));
+
+    BufferedImage i = Images.readImage(i1);
+    assertEquals(5,i.getWidth());
+    assertEquals(4,i.getHeight());
+    i = Images.readImage(i2);
+    assertEquals(5,i.getWidth());
+    assertEquals(5,i.getHeight());
+    i = Images.readImage(i3);
+    assertEquals(3,i.getWidth());
+    assertEquals(5,i.getHeight());
+
+    assertTrue(fichier.deleteDirectory(folder));
+  }
+
+  @Test
+  public void testResizeAll3(){
+    String folderName="tempImagesFolder"+getId()+"/";
+    File folder = new File(folderName);
+
+    assertFalse(Images.resizeAll(folder, 5, false));
+  }
+
+  @Test
+  public void testResizeAll4(){
+    String folderName="tempImagesFolder"+getId()+"/";
+    File folder = new File(folderName);
+    folder.mkdir();
+
+    assertFalse(Images.resizeAll(folder, 5, false));
+
+    assertTrue(fichier.deleteDirectory(folder));
   }
 
 

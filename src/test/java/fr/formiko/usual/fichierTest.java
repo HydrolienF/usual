@@ -1,5 +1,6 @@
 package fr.formiko.usual;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import fr.formiko.tests.TestCaseMuet;
@@ -88,7 +89,9 @@ public class fichierTest extends TestCaseMuet{
     assertTrue(fichier.deleteDirectory("testDir"+x));
   }
 
+
   @Test
+  @Disabled("Tooo long for standard test")
   public void testDownloadAndUnzip(){
     File f = new File("jlink"+getId()+"/");
     assertTrue(fichier.downloadAndUnzip("https://github.com/HydrolienF/JRE/releases/download/18.0.1/jlink.zip", f.toString(), "jWindows/legal/java.xml/"));
