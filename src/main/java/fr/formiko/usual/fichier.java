@@ -73,10 +73,8 @@ public class fichier {
   public static boolean deleteDirectory(File directoryToBeDeleted) {
     if(directoryToBeDeleted==null || !directoryToBeDeleted.exists()){return false;}
     File allF [] = directoryToBeDeleted.listFiles();
-    if (allF != null) {
-      for (File file : allF) {
-        deleteDirectory(file);
-      }
+    for (File file : allF) {
+      deleteDirectory(file);
     }
     return directoryToBeDeleted.delete();
   }public static boolean deleteDirectory(String s){return deleteDirectory(new File(str.sToDirectoryName(s)));}

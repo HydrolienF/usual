@@ -107,21 +107,19 @@ public class TreeNode<T> extends Node {
   void addFileAsNode(File file) { //private but aviable on all Tree.java
     if(file.isDirectory()) {
       File allF [] = file.listFiles();
-      if (allF != null) {
-        Liste<File> list = new Liste<File>();
-        Comparator<File> comparator = (File f1, File f2) -> (f2.getName().compareTo(f1.getName()));
-        for (File subFile : allF) {
-          list.addSorted(subFile, comparator);
-        }
-        for (File subFile : list) {
-        // for (File subFile : allF) {
-          if(subFile.isDirectory()){
-            TreeNode<T> node = new TreeNode<T>(this);
-            children.add(node);
-            node.addFileAsNode(subFile);
-          } else if (Images.isImage(subFile)) { //  && subFile.getName().contains("full") && T instanceof BufferedImage
-            setContent((T)Images.readImage(subFile));
-          }
+      Liste<File> list = new Liste<File>();
+      Comparator<File> comparator = (File f1, File f2) -> (f2.getName().compareTo(f1.getName()));
+      for (File subFile : allF) {
+        list.addSorted(subFile, comparator);
+      }
+      for (File subFile : list) {
+      // for (File subFile : allF) {
+        if(subFile.isDirectory()){
+          TreeNode<T> node = new TreeNode<T>(this);
+          children.add(node);
+          node.addFileAsNode(subFile);
+        } else if (Images.isImage(subFile)) { //  && subFile.getName().contains("full") && T instanceof BufferedImage
+          setContent((T)Images.readImage(subFile));
         }
       }
     }
