@@ -52,7 +52,7 @@ public class fichier {
     //cad sous la forme rep+sousdossier1+sousdossier2+nomDu.java
     if (f.isDirectory()){
       File allF [] = f.listFiles();
-      if (allF != null && allF.length>0) {
+      if (allF != null) {
         for (File file : allF) {
           gs.add(listerLesFichiersDuRep(file));
         }
@@ -73,8 +73,10 @@ public class fichier {
   public static boolean deleteDirectory(File directoryToBeDeleted) {
     if(directoryToBeDeleted==null || !directoryToBeDeleted.exists()){return false;}
     File allF [] = directoryToBeDeleted.listFiles();
-    for (File file : allF) {
-      deleteDirectory(file);
+    if(allF!=null){
+      for (File file : allF) {
+        deleteDirectory(file);
+      }
     }
     return directoryToBeDeleted.delete();
   }public static boolean deleteDirectory(String s){return deleteDirectory(new File(str.sToDirectoryName(s)));}
