@@ -586,9 +586,9 @@ public class Folder {
   */
   public static boolean download(String urlPath, String fileName, boolean withInfo, Progression progression){
     boolean worked=false;
-    try {
+    if(progression!=null){
       progression.setButtonRetryVisible(false);
-    }catch (NullPointerException e) {}
+    }
     try {
       fichier.setProgression(progression);
       worked=fichier.download2(urlPath,fileName,withInfo);
