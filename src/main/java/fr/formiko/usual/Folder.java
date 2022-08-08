@@ -563,18 +563,19 @@ public class Folder {
     Thread th = new ThDownloadMusicData(this, mp, getProgression());
     th.start();
   }
-  // /**
-  // *{@summary Return true if we need to download the musics files.}<br>
-  // *We need to download the music files if 1 or more is missing.<br>
-  // *@lastEditedVersion 2.29
-  // */
-  // public boolean needToDownloadMusic(){
-  //   int cpt = fichier.countEntryOfZipFile("https://github.com/HydrolienF/Formiko/releases/download/"+getWantedMusicVersion()+"/music.zip");
-  //   File f = new File(getFolderStable()+getFolderMusiques());
-  //   if(!f.exists()){return true;}
-  //   erreur.info("needToDownloadMusic: "+cpt+" > "+f.list().length+" ?");//@a
-  //   return cpt > f.list().length;
-  // }
+  /**
+  *{@summary Return true if we need to download the musics files.}<br>
+  *We need to download the music files if 1 or more is missing.<br>
+  *@lastEditedVersion 2.30
+  */
+  public boolean needToDownloadMusic(){
+    // int cpt = fichier.countEntryOfZipFile("https://github.com/HydrolienF/Formiko/releases/download/"+getWantedMusicVersion()+"/music.zip");
+    int cpt = 15; //It take some secound to countEntryOfZipFile so we avoid it by using hardcoded value.
+    File f = new File(getFolderStable()+getFolderMusiques());
+    if(!f.exists()){return true;}
+    erreur.info("needToDownloadMusic: "+cpt+" > "+f.list().length+" ?");//@a
+    return cpt > f.list().length;
+  }
   /**
   *{@summary Download a file from the web.}<br>
   * It also update progression.
@@ -586,9 +587,9 @@ public class Folder {
   */
   public static boolean download(String urlPath, String fileName, boolean withInfo, Progression progression){
     boolean worked=false;
-    try {
+    if(progression!=null){
       progression.setButtonRetryVisible(false);
-    }catch (NullPointerException e) {}
+    }
     try {
       fichier.setProgression(progression);
       worked=fichier.download2(urlPath,fileName,withInfo);
