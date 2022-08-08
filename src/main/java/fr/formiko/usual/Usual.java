@@ -63,6 +63,18 @@ public class Usual {
         stats2(args);
         break;
       }
+      case "downloadMusicIfNeeded":{
+        Folder f = new Folder();
+        Chrono ch = new Chrono();
+        ch.start();
+        boolean b = f.needToDownloadMusic();
+        ch.stop();
+        erreur.info("time for test download music: "+ch.getDuree()+"ms");
+        if(b){
+          erreur.info("need to download music");
+        }
+        break;
+      }
     }
   }
 
