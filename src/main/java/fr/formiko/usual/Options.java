@@ -16,7 +16,7 @@ import java.io.IOException;
 *@lastEditedVersion 2.30
 */
 public class Options implements Serializable {
-  private SortedProperties properties;
+  protected SortedProperties properties;
   // CONSTRUCTORS --------------------------------------------------------------
   /**
   *{@summary Main constructor.}<br>
