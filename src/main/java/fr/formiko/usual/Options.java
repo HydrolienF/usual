@@ -31,6 +31,7 @@ public class Options implements Serializable {
     }
   }
   // GET SET -------------------------------------------------------------------
+  protected SortedProperties getProperties(){return properties;}
   /**
   *{@summary Return the String value of this option.}<br>
   *@param key name of the option
