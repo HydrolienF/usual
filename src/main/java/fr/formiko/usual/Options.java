@@ -187,6 +187,38 @@ public class Options implements Serializable {
   public void set(String key, Object value){
     properties.setProperty(key, value.toString());
   }
+  /**
+  *{@summary Set an option.}<br>
+  *It can be a new option or the edition of an existing option.<br>
+  *@param key name of the option
+  *@param value value of the option
+  *@param cat the category of the option
+  *@lastEditedVersion 2.30
+  */
+  public void set(String key, Object value, Object cat){
+    set(key, value);
+    set(key+".cat", cat);
+  }
+  /**
+  *{@summary Set an option.}<br>
+  *It can be a new option or the edition of an existing option.<br>
+  *@param key name of the option
+  *@param value value of the option
+  *@param cat the category of the option
+  *@param min the min value of the option (minlen if value is a String)
+  *@param max the max value of the option (maxlen if value is a String)
+  *@lastEditedVersion 2.30
+  */
+  public void set(String key, Object value, Object cat, Object min, Object max){
+    set(key, value, cat);
+    if(value instanceof String){
+      if(min!=null){set(key+".minlen", min);}
+      if(max!=null){set(key+".maxlen", max);}
+    }else{
+      if(min!=null){set(key+".min", min);}
+      if(max!=null){set(key+".max", max);}
+    }
+  }
 
   // FUNCTIONS -----------------------------------------------------------------
   /**
