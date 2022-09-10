@@ -19,6 +19,11 @@ public class Os {
   // CONSTRUCTORS --------------------------------------------------------------
   public Os(){iniOs();}
   // GET SET -------------------------------------------------------------------
+  /**
+  *{@summary Return the static os.}<br>
+  *With this the static os will never be return as null.
+  *@lastEditedVersion 2.30
+  */
   public static Os getOs(){
     if(os==null){
       os=new Os();

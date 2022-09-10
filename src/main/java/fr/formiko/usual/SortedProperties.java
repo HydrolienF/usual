@@ -29,6 +29,13 @@ public class SortedProperties extends Properties {
     super(x);
   }
   /**
+  *{@summary A simple extends for constructor.}
+  *@lastEditedVersion 2.30
+  */
+  public SortedProperties(){
+    super();
+  }
+  /**
   *{@summary Set a sortable Set.}
   *@lastEditedVersion 1.34
   */

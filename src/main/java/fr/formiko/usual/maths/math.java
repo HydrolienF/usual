@@ -171,6 +171,34 @@ public class math {
   *@return val or a bound
   *@lastEditedVersion 2.5
   */
+  public static long between(long min, long max, long val){
+    if(val<min){return min;}
+    if(val>max){return max;}
+    return val;
+  }
+  /**
+  *{@summary Return a value in an interval.}<br>
+  *max &#38; min are in the interval.
+  *@param min the minimum value
+  *@param max the maximum value
+  *@param val the value to test
+  *@return val or a bound
+  *@lastEditedVersion 2.5
+  */
+  public static byte between(byte min, byte max, byte val){
+    if(val<min){return min;}
+    if(val>max){return max;}
+    return val;
+  }
+  /**
+  *{@summary Return a value in an interval.}<br>
+  *max &#38; min are in the interval.
+  *@param min the minimum value
+  *@param max the maximum value
+  *@param val the value to test
+  *@return val or a bound
+  *@lastEditedVersion 2.5
+  */
   public static float between(float min, float max, float val){
     if(val<min){return min;}
     if(val>max){return max;}
