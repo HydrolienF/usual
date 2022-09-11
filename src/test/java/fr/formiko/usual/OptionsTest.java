@@ -120,6 +120,61 @@ public class OptionsTest extends TestCaseMuet {
   }
 
   @Test
+  public void testSetNext(){
+    Options op = new Options();
+    op.set("k",2);
+    op.set("k.max",4);
+    op.set("k.min",-2);
+    assertEquals(2,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(3,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(4,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(-2,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(-1,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(0,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(1,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(2,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(3,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(4,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(-2,op.getInt("k"));
+  }
+  @Test
+  public void testSet(){
+    Options op = new Options();
+    op.set("k",2,null,-2,4);
+    assertEquals(2,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(3,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(4,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(-2,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(-1,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(0,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(1,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(2,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(3,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(4,op.getInt("k"));
+    op.setNext("k");
+    assertEquals(-2,op.getInt("k"));
+  }
+
+  @Test
   public void loadFromFileTest(){
     String fileName="loadFromFileTest"+getId();
     GString gs = new GString();
@@ -178,8 +233,8 @@ public class OptionsTest extends TestCaseMuet {
     fichier.deleteDirectory(fileName2);
   }
 
-  @Test
-  public void testAll(){
-
-  }
+  // @Test
+  // public void testAll(){
+  //
+  // }
 }

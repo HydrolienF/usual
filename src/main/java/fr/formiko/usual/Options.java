@@ -68,6 +68,16 @@ public class Options implements Serializable {
     else{return false;}
   }
   /**
+  *{@summary Return true if it is a boolean.}<br>
+  *@param key name of the option
+  *@lastEditedVersion 2.30
+  */
+  public boolean isBoolean(String key){
+    String value=get(key);
+    if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){return true;}
+    else{return false;}
+  }
+  /**
   *{@summary Return the long value of this option.}<br>
   *Long can be parameter by setting key.max or key.min.<br>
   *@param key name of the option
@@ -198,7 +208,9 @@ public class Options implements Serializable {
   */
   public void set(String key, Object value, Object cat){
     set(key, value);
-    set(key+".cat", cat);
+    if(cat!=null){
+      set(key+".cat", cat);
+    }
   }
   /**
   *{@summary Set an option.}<br>
@@ -218,6 +230,22 @@ public class Options implements Serializable {
     }else{
       if(min!=null){set(key+".min", min);}
       if(max!=null){set(key+".max", max);}
+    }
+  }
+  /**
+  *{@summary Set value to the next possible option.}<br>
+  *For boolean it swap to the other value.<br>
+  *For long, int or byte it do (value+1)%max.<br>
+  *@param key name of the option
+  *@lastEditedVersion 2.30
+  */
+  public void setNext(String key){
+    if(isBoolean(key)){
+      set(key, !getBoolean(key));
+    }else{
+      long value=getLong(key);
+      if(value==getLong(key+".max")){set(key, getLong(key+".min"));}
+      else{set(key, value+1);}
     }
   }
 
