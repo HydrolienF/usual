@@ -223,9 +223,7 @@ public class Options implements Serializable {
   */
   public void set(String key, Object value, Object cat, boolean hide){
     set(key, value, cat);
-    if(hide){
-      set(key+".hide", true);
-    }
+    setHide(hide);
   }
   /**
   *{@summary Set an option.}<br>
@@ -248,6 +246,21 @@ public class Options implements Serializable {
     }
   }
   /**
+  *{@summary Set an option.}<br>
+  *It can be a new option or the edition of an existing option.<br>
+  *@param key name of the option
+  *@param value value of the option
+  *@param cat the category of the option
+  *@param min the min value of the option (minlen if value is a String)
+  *@param max the max value of the option (maxlen if value is a String)
+  *@param hide if true, this option need to be hide in UI
+  *@lastEditedVersion 2.30
+  */
+  public void set(String key, Object value, Object cat, Object min, Object max, boolean hide){
+    set(key, value, cat, min, max);
+    setHide(hide);
+  }
+  /**
   *{@summary Set value to the next possible option.}<br>
   *For boolean it swap to the other value.<br>
   *For long, int or byte it do (value+1)%max.<br>
@@ -261,6 +274,16 @@ public class Options implements Serializable {
       long value=getLong(key);
       if(value==getLong(key+".max")){set(key, getLong(key+".min"));}
       else{set(key, value+1);}
+    }
+  }
+  /**
+  *{@summary Set the hide value.}<br>
+  *@param hide if true, this option need to be hide in UI
+  *@lastEditedVersion 2.30
+  */
+  public void setHide(boolean hide){
+    if(hide){
+      set(key+".hide", true);
     }
   }
 
@@ -278,5 +301,17 @@ public class Options implements Serializable {
     }catch (IOException e) {
       erreur.erreur("Fail to load properties from file "+fileName+" "+e);
     }
+  }
+  /**
+  *{@summary Return true if key is a parameter of an other key.}<br>
+  *@lastEditedVersion 2.30
+  */
+  protected boolean isParameter(String key){
+    return (key.endsWith(".max")
+        || key.endsWith(".min")
+        || key.endsWith(".maxlen")
+        || key.endsWith(".minlen")
+        || key.endsWith(".cat"));
+        || key.endsWith(".hide"));
   }
 }
