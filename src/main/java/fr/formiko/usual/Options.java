@@ -218,6 +218,21 @@ public class Options implements Serializable {
   *@param key name of the option
   *@param value value of the option
   *@param cat the category of the option
+  *@param hide if true, this option need to be hide in UI
+  *@lastEditedVersion 2.30
+  */
+  public void set(String key, Object value, Object cat, boolean hide){
+    set(key, value, cat);
+    if(hide){
+      set(key+".hide", true);
+    }
+  }
+  /**
+  *{@summary Set an option.}<br>
+  *It can be a new option or the edition of an existing option.<br>
+  *@param key name of the option
+  *@param value value of the option
+  *@param cat the category of the option
   *@param min the min value of the option (minlen if value is a String)
   *@param max the max value of the option (maxlen if value is a String)
   *@lastEditedVersion 2.30
