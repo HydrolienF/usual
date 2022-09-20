@@ -223,7 +223,7 @@ public class Options implements Serializable {
   */
   public void set(String key, Object value, Object cat, boolean hide){
     set(key, value, cat);
-    setHide(hide);
+    setHide(key, hide);
   }
   /**
   *{@summary Set an option.}<br>
@@ -258,7 +258,7 @@ public class Options implements Serializable {
   */
   public void set(String key, Object value, Object cat, Object min, Object max, boolean hide){
     set(key, value, cat, min, max);
-    setHide(hide);
+    setHide(key, hide);
   }
   /**
   *{@summary Set value to the next possible option.}<br>
@@ -278,10 +278,11 @@ public class Options implements Serializable {
   }
   /**
   *{@summary Set the hide value.}<br>
+  *@param key name of the option
   *@param hide if true, this option need to be hide in UI
   *@lastEditedVersion 2.30
   */
-  public void setHide(boolean hide){
+  public void setHide(String key, boolean hide){
     if(hide){
       set(key+".hide", true);
     }
@@ -304,6 +305,7 @@ public class Options implements Serializable {
   }
   /**
   *{@summary Return true if key is a parameter of an other key.}<br>
+  *@param key name of the option
   *@lastEditedVersion 2.30
   */
   protected boolean isParameter(String key){
@@ -311,7 +313,7 @@ public class Options implements Serializable {
         || key.endsWith(".min")
         || key.endsWith(".maxlen")
         || key.endsWith(".minlen")
-        || key.endsWith(".cat"));
+        || key.endsWith(".cat")
         || key.endsWith(".hide"));
   }
 }
