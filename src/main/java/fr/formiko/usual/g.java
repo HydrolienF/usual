@@ -40,7 +40,9 @@ public class g {
   */
   public static String get(String key, String sDefault){
     if(key==null || key.equals("")){if(sDefault==null){sDefault="";}return sDefault;}
-    if(str.isMaj(key.substring(0,1))){
+    if(key.length() > 1 && str.isMaj(key)){
+      return get(key.toLowerCase(), sDefault).toUpperCase();
+    }else if(str.isMaj(key.substring(0,1))){
       //erreur.println("sToSMin for : "+key);
       return getM(str.sToSMin(key),str.sToSMaj(sDefault));
     }
