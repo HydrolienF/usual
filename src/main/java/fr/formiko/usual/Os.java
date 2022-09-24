@@ -11,7 +11,7 @@ public class Os {
   private static Os os;
   /***
   *{@summary Save OS.}<br>
-  *0=linux, 1=Windows, 2=Mac, -1=unknowOS
+  *0=linux, 1=Windows, 2=Mac, -1=unknowOS<br>
   */
   private byte id;
   protected static String osName = System.getProperty("os.name").toLowerCase(); //po for test
