@@ -2,7 +2,7 @@
 [codeQuality]: https://api.codiga.io/project/34652/score/svg
 [ ![codeQuality][] ][download]
 
-**Formiko**
+**Formiko Usual**
 
 This is the usual package of Formiko, shared by launcher & game.
 
