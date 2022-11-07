@@ -38,3 +38,5 @@ runs:
       cd ~
       mv ${{ github.action_path }}/target/*with-dependencies.jar u.jar
       java -jar u.jar ${{ inputs.args }}
+      echo ================================
+      ls
