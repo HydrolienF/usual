@@ -1,0 +1,40 @@
+name: LauncherJar
+author: "HydrolienF"
+description: 'Create a launcher for any jar app.'
+branding:
+  icon: 'play'
+  color: 'orange'
+
+on:
+  pull_request:
+    branches: [master]
+    types: [closed]
+
+
+inputs:
+  project-name:  args
+    description: 'Name of your projet'
+    required: true
+
+env:
+  JAVA_VERSION: '18'
+  JAVA_DISTRIBUTION: 'temurin'
+
+
+runs:
+  using: "composite"
+  steps:
+
+  - uses: actions/setup-java@v3
+    with:
+      distribution: ${{ env.JAVA_DISTRIBUTION }}
+      java-version: ${{ env.JAVA_VERSION }}
+
+  - name: Execute with args
+    shell: bash
+    run: |
+      cd ${{ github.action_path }}
+      mvn -ntp package -Dmaven.test.skip
+      cd ~
+      mv ${{ github.action_path }}/target/*with-dependencies.jar u.jar
+      java -jar u.jar ${{ inputs.args }}
