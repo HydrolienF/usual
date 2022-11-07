@@ -12,8 +12,8 @@ on:
 
 
 inputs:
-  project-name:  args
-    description: 'Name of your projet'
+  args:
+    description: 'args to use'
     required: true
 
 env:
