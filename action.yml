@@ -1,6 +1,6 @@
-name: LauncherJar
+name: FormikoUsualTool
 author: "HydrolienF"
-description: 'Create a launcher for any jar app.'
+description: 'Execute code with args'
 branding:
   icon: 'play'
   color: 'orange'
@@ -12,8 +12,8 @@ on:
 
 
 inputs:
-  project-name:  args
-    description: 'Name of your projet'
+  args:
+    description: 'args to use'
     required: true
 
 env:
