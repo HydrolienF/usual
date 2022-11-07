@@ -1,6 +1,6 @@
-name: FormikoUsual
+name: FormikoUsualTool
 author: "HydrolienF"
-description: 'Create a launcher for any jar app.'
+description: 'Execute code with args'
 branding:
   icon: 'play'
   color: 'orange'
