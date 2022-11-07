@@ -585,8 +585,8 @@ public class Images {
     return getImagesAsMap(new File(folderName));
   }
   /**
-  *{@summary Rezise a HashMap&lt;String, BufferedImage&gt;.}<br>
-  *@param mapIn Map that contains images to rezise
+  *{@summary Resize a HashMap&lt;String, BufferedImage&gt;.}<br>
+  *@param mapIn Map that contains images to resize
   *@lastEditedVersion 2.7
   */
   public static HashMap<String, BufferedImage> getScaledInstanceFromMap(HashMap<String, BufferedImage> mapIn, int size){
