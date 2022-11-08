@@ -36,6 +36,9 @@ runs:
       cd ${{ github.action_path }}
       mvn -ntp package "-Dmaven.test.skip"
       cd ~
+      if (Test-Path "u.jar") {
+        Remove-Item "u.jar"
+      }
       mv ${{ github.action_path }}/target/*with-dependencies.jar u.jar
       java -jar u.jar ${{ inputs.args }}
       echo ================================
