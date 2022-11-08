@@ -34,7 +34,7 @@ runs:
     shell: pwsh
     run: |
       cd ${{ github.action_path }}
-      mvn -ntp package -Dmaven.test.skip
+      mvn -ntp package "-Dmaven.test.skip"
       cd ~
       mv ${{ github.action_path }}/target/*with-dependencies.jar u.jar
       java -jar u.jar ${{ inputs.args }}
